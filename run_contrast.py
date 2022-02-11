@@ -384,9 +384,9 @@ def load_model_weights(model, new_checkpoint):
     return model
 
 def initialize_model_trainer(model = None, weights = None):
-
+  from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
   if model is None:
-    from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
+    
     model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
     model.resize_token_embeddings(len(tokenizer))
     model.to('cuda')
