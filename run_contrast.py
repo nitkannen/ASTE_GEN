@@ -44,6 +44,7 @@ import numpy as np
 import pandas as pd
 from torch.nn.utils.rnn import pad_sequence
 from datasets import load_dataset, load_metric
+from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
 #raw_datasets = load_dataset("xsum")
 metric = load_metric("rouge")
@@ -585,12 +586,14 @@ loader = DataLoader(
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
 model.resize_token_embeddings(len(tokenizer))
+model.to('cuda')
 
 epochs = 10
 current_step = 0
 contrast_criterion = SupConLoss()
 optimizer, scheduler = get_optimizer_scheduler(model, loader, epochs)
 trainer_model = None
+name = ''
 
 ################## Conttrastive Training clubbed with the conventional training
 
@@ -603,7 +606,9 @@ for epoch in range(epochs):
   if(epoch % 2 == 0):
       print('/////_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_/////')
       print("Training AFter: Epochs: ", epoch)
-      trainer, trainer_model = initialize_model_trainer(trainer_model, model)
+      name += str(epochs)
+      torch.save(model.state_dict(), name)
+      trainer, trainer_model = initialize_model_trainer(trainer_model, name)
       trainer.train()
   
   ## Possible experiment
