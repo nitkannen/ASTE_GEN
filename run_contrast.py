@@ -409,6 +409,8 @@ def initialize_model_trainer(model = None, weights = None):
       predict_with_generate=True,
   )
 
+  args.logging_dir = 'logs'
+
 
   
   data_collator = DataCollatorForSeq2Seq(tokenizer, model=model, padding = True)
@@ -609,8 +611,15 @@ for epoch in range(epochs):
       name += str(epochs)
       torch.save(model.state_dict(), name)
       trainer, trainer_model = initialize_model_trainer(trainer_model, name)
-      trainer.train()
-  
+      train_result = trainer.train()
+
+      metrics = train_result.metrics 
+
+      # save train results
+      eps = str(epoch)
+      trainer.log_metrics("results after  ", metrics)
+      trainer.save_metrics(eps, metrics)
+        
   ## Possible experiment
   # loader = DataLoader(
   #                   Contrastive_Dataset, collate_fn = collate_fn ,shuffle = True,  batch_size=16
