@@ -323,7 +323,7 @@ if __name__ == '__main__':
 
     #logger = logging.getLogger(__name__)
     #Replace with Custom WandB logger
-    logger = TensorBoardLogger('tb_logs', name='ASTE')
+    logger = TensorBoardLogger(args.output_dir, name='ASTE')
     custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
 
     if args.do_train:
