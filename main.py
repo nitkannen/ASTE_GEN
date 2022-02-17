@@ -33,6 +33,7 @@ from datasets import load_dataset, load_metric
 
 from pytorch_lightning.loggers.neptune import NeptuneLogger
 from pytorch_lightning.loggers.wandb import WandbLogger
+from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 import argparse
@@ -322,7 +323,7 @@ if __name__ == '__main__':
 
     #logger = logging.getLogger(__name__)
     #Replace with Custom WandB logger
-    wandb_logger = WandbLogger(project = args.task, name = f"logs_{args.task}")
+    logger = TensorBoardLogger('tb_logs', name='ASTE')
     custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
 
     if args.do_train:
