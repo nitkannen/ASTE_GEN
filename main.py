@@ -382,10 +382,10 @@ if __name__ == '__main__':
 
         
             # load dev and test datasets
-        dev_dataset = ASTE_Dataset(tokenizer, data_dir=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
+        dev_dataset = ASTE_Dataset(tokenizer, data_path=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
         dev_loader = DataLoader(dev_dataset, batch_size=32)
 
-        test_dataset = ASTE_Dataset(tokenizer, data_dir=args.test_dataset_path, task=args.task, max_len=args.max_seq_length)
+        test_dataset = ASTE_Dataset(tokenizer, data_path=args.test_dataset_path, task=args.task, max_len=args.max_seq_length)
         test_loader = DataLoader(test_dataset, batch_size=32)
 
         for checkpoint in all_checkpoints:
