@@ -37,23 +37,28 @@ def generate_target(d):
 
     return summary.strip()
 
-def generate_triplet_dict(tuples):
+def generate_triplet_dict(tuples, sentence):
     """
     takes a set of tuples and generates triplet dictionary
     """
     triplets = tuples.split('|')
     d = OrderedDict()
-
+    ordered_triplets = []
     for triplet in triplets:
-        
-        a, o, s = triplet.split(';')
+        a, o, _ = triplet.split(';')
+        ordered_triplets.append( ( sentence.find(a.strip()), sentence.find(o.strip())  , triplet) )
+    #print(ordered_triplets)
+    ordered_triplets = sorted(ordered_triplets)
+    #print(ordered_triplets)
+    for triplet in ordered_triplets:
+        a, o, s = triplet[2].split(';')
         if(a.strip() in d.keys()):
             d[a.strip()].append((o.strip(), s.strip()))
         else:
             d[a.strip()] = []
             d[a.strip()].append((o.strip(), s.strip()))
-            
-    return d
+    
+    return d 
 
 
 def get_transformed_data(sentences_list, tuples_list):
@@ -67,7 +72,7 @@ def get_transformed_data(sentences_list, tuples_list):
         
         sent = sentences_list[i].strip()
         tup = tuples_list[i]
-        tup_dict = generate_triplet_dict(tup)
+        tup_dict = generate_triplet_dict(tup, sent)
         target = generate_target(tup_dict)
         inputs.append(sent)
         targets.append(target)
