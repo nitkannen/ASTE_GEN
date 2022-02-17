@@ -215,11 +215,22 @@ class T5FineTuner(pl.LightningModule):
         self.opt = optimizer
         return [optimizer]
 
-    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None):
+    def optimizer_step(self,
+                    epoch=None,
+                    batch_idx=None,
+                    optimizer=None,
+                    optimizer_idx=None,
+                    optimizer_closure=None,
+                    on_tpu=None,
+                    using_native_amp=None,
+                    using_lbfgs=None):
+
+                optimizer.step()
+                optimizer.zero_grad()
+                self.lr_scheduler.step()
+    #def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None):
         
-        optimizer.step()
-        optimizer.zero_grad()
-        self.lr_scheduler.step()
+        
 
     def get_tqdm_dict(self):
         tqdm_dict = {"loss": "{:.4f}".format(self.trainer.avg_loss), "lr": self.lr_scheduler.get_last_lr()[-1]}
