@@ -2,6 +2,12 @@ from torch.utils.data import Dataset, DataLoader
 from collections import OrderedDict
 import os
 
+
+sent_map = {}
+sent_map['POS'] = 'positive'
+sent_map['NEU'] = 'neutral'
+sent_map['NEG'] = 'negative'
+
 def read_data(path):
 
     sents = open( path + '.sent', 'r')
