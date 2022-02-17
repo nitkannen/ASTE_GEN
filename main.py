@@ -31,6 +31,10 @@ import numpy as np
 import pandas as pd
 from datasets import load_dataset, load_metric
 
+from pytorch_lightning.loggers.neptune import NeptuneLogger
+from pytorch_lightning.loggers.wandb import WandbLogger
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+
 import argparse
 import os
 import logging
@@ -172,22 +176,24 @@ class T5FineTuner(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         loss = self._step(batch)
 
-        logs = {"train_loss": loss}
-        return {"loss": loss, "log": logs}
+        #logs = {"train_loss": loss}
+        self.log('train_loss': loss)
+        return loss
 
     def training_epoch_end(self, outputs):
-        avg_train_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        logs = {"avg_train_loss": avg_train_loss}
-        return {"avg_train_loss": avg_train_loss, "log": logs, 'progress_bar': logs}
+        avg_train_loss = torch.stack([x for x in outputs]).mean()
+        self.log('avg_train_loss_after_epoch_end': avg_train_loss)
 
     def validation_step(self, batch, batch_idx):
         loss = self._step(batch)
-        return {"val_loss": loss}
+        self.log("val_loss": loss)
+        return loss
+
 
     def validation_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["val_loss"] for x in outputs]).mean()
-        logs = {"val_loss": avg_loss}
-        return {"avg_val_loss": avg_loss, "log": logs, 'progress_bar': logs}
+        avg_loss = torch.stack([x for x in outputs]).mean()
+        self.log("val_loss": avg_loss)
+
 
     def configure_optimizers(self):
         '''Prepare optimizer and schedule (linear warmup and decay)'''
@@ -233,32 +239,32 @@ class T5FineTuner(pl.LightningModule):
 
     def val_dataloader(self):
         val_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
-        return DataLoader(val_dataset, batch_size=self.eval_batch_size, num_workers=4)
+        return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
 
-class LoggingCallback(pl.Callback):
-    def on_validation_end(self, trainer, pl_module):
-        logger.info("***** Validation results *****")
-        if pl_module.is_logger():
-            metrics = trainer.callback_metrics
-        # Log results
-        for key in sorted(metrics):
-            if key not in ["log", "progress_bar"]:
-                logger.info("{} = {}\n".format(key, str(metrics[key])))
+# class LoggingCallback(pl.Callback):
+#     def on_validation_end(self, trainer, pl_module):
+#         logger.info("***** Validation results *****")
+#         if pl_module.is_logger():
+#             metrics = trainer.callback_metrics
+#         # Log results
+#         for key in sorted(metrics):
+#             if key not in ["log", "progress_bar"]:
+#                 logger.info("{} = {}\n".format(key, str(metrics[key])))
 
-    def on_test_end(self, trainer, pl_module):
-        logger.info("***** Test results *****")
+#     def on_test_end(self, trainer, pl_module):
+#         logger.info("***** Test results *****")
 
-        if pl_module.is_logger():
-            metrics = trainer.callback_metrics
+#         if pl_module.is_logger():
+#             metrics = trainer.callback_metrics
 
-        # Log and save results to file
-        output_test_results_file = os.path.join(pl_module.hparams.output_dir, "test_results.txt")
-        with open(output_test_results_file, "w") as writer:
-            for key in sorted(metrics):
-                if key not in ["log", "progress_bar"]:
-                    logger.info("{} = {}\n".format(key, str(metrics[key])))
-                    writer.write("{} = {}\n".format(key, str(metrics[key])))
+#         # Log and save results to file
+#         output_test_results_file = os.path.join(pl_module.hparams.output_dir, "test_results.txt")
+#         with open(output_test_results_file, "w") as writer:
+#             for key in sorted(metrics):
+#                 if key not in ["log", "progress_bar"]:
+#                     logger.info("{} = {}\n".format(key, str(metrics[key])))
+#                     writer.write("{} = {}\n".format(key, str(metrics[key])))
 
 def evaluate(data_loader, model):
 
@@ -299,29 +305,38 @@ if __name__ == '__main__':
 
     tokenizer = T5Tokenizer.from_pretrained(args.model_name_or_path)
 
-    logger = logging.getLogger(__name__)
-    custom_logger = logger = open(os.path.join(args.output_dir, args.logger_name), 'w')
+    #logger = logging.getLogger(__name__)
+    #Replace with Custom WandB logger
+    wandb_logger = WandbLogger(project = args.task, name = f"logs_{args.task}")
+    custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
 
     if args.do_train:
         custom_print("\n****** Conduct Training ******")
         
         model = T5FineTuner(args)
 
-        checkpoint_callback = pl.callbacks.ModelCheckpoint(
-            dirpath=args.output_dir, filename="ckt", monitor='val_loss', mode='min', save_top_k=5
-        )
+        checkpoint_callback = []
+
+        checkpoint_callback.append( ModelCheckpoint(
+            monitor='val_loss',
+            # monitor=None,
+            save_top_k=5,
+            verbose=True,
+            save_last=True,
+            mode='min'
+        ))
+
 
         train_params = dict(
         default_root_dir=args.output_dir,
         accumulate_grad_batches=args.gradient_accumulation_steps,
         gpus=args.n_gpu,
         gradient_clip_val=1.0,
-        #amp_level='O1',
         max_epochs=args.num_train_epochs,
-        checkpoint_callback=checkpoint_callback,
-        callbacks=[LoggingCallback()],
+        callbacks=checkpoint_callback,
         )
 
+        
         trainer = pl.Trainer(**train_params)
         trainer.fit(model)
 

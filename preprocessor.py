@@ -19,9 +19,9 @@ def read_data(path):
 
 def generate_target(d):
     """
-  takes a aspect triple dictionary and linearizes it
+    takes a aspect triple dictionary and linearizes it
 
-  """
+    """
 
     summary = ""
     if len(d.items()) == 0:
