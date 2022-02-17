@@ -122,6 +122,7 @@ def get_dataset(tokenizer, data_path, task, max_seq_length):
 class T5FineTuner(pl.LightningModule):
     def __init__(self, hparams):
         super(T5FineTuner, self).__init__()
+        #self.log = logger
         self.model_name_or_path = hparams.model_name_or_path
         self.train_batch_size = hparams.train_batch_size
         self.eval_batch_size = hparams.eval_batch_size
@@ -177,22 +178,23 @@ class T5FineTuner(pl.LightningModule):
         loss = self._step(batch)
 
         #logs = {"train_loss": loss}
-        self.log('train_loss': loss)
+        self.log('train_loss', loss)
         return loss
 
     def training_epoch_end(self, outputs):
         avg_train_loss = torch.stack([x for x in outputs]).mean()
-        self.log('avg_train_loss_after_epoch_end': avg_train_loss)
+        self.log('avg_train_loss_after_epoch_end', avg_train_loss)
+        #self.log('val_loss', val_loss, on_epoch=True, sync_dist=True)
 
     def validation_step(self, batch, batch_idx):
         loss = self._step(batch)
-        self.log("val_loss": loss)
+        self.log("val_loss", loss)
         return loss
 
 
     def validation_epoch_end(self, outputs):
         avg_loss = torch.stack([x for x in outputs]).mean()
-        self.log("val_loss": avg_loss)
+        self.log("val_loss", avg_loss)
 
 
     def configure_optimizers(self):
