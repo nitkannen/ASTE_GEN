@@ -308,7 +308,7 @@ if __name__ == '__main__':
         model = T5FineTuner(args)
 
         checkpoint_callback = pl.callbacks.ModelCheckpoint(
-            dirpath=args.output_dir, prefix="ckt", monitor='val_loss', mode='min', save_top_k=5
+            dirpath=args.output_dir, filename="ckt", monitor='val_loss', mode='min', save_top_k=5
         )
 
         train_params = dict(
