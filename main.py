@@ -112,7 +112,7 @@ def initialise_args():
     return args
 
 def get_dataset(tokenizer, data_path, task, max_seq_length):
-    return ASTE_Dataset(tokenizer=tokenizer, data_dir = data_path,
+    return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
      task=task, max_len=max_seq_length)
 
 class T5FineTuner(pl.LightningModule):
