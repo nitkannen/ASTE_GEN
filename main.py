@@ -7,7 +7,6 @@ import time
 import pprint
 import string
 
-from keras.preprocessing.sequence import pad_sequences
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -74,12 +73,12 @@ def initialise_args():
                         help="path to test file ")
     parser.add_argument("--model_name_or_path", default='t5-base', type=str,
                         help="Path to pre-trained model or shortcut name")
-    parser.add_argument("--do_train", action='store_true', help="Whether to run training.")
-    parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev/test set.")
-    parser.add_argument("--do_direct_eval", action='store_true', 
-                        help="Whether to run direct eval on the dev/test set.")
+    parser.add_argument("--do_train", default = 'True', help="Whether to run training.")
+    parser.add_argument("--do_eval", help="Whether to run eval on the dev/test set.")
+    # parser.add_argument("--do_direct_eval", action='store_true', 
+    #                     help="Whether to run direct eval on the dev/test set.")
     parser.add_argument("--max_seq_length", default=128, type=int)
-    parser.add_argument("--n_gpu", default=0)
+    parser.add_argument("--n_gpu", default=1)
     parser.add_argument("--logger_name", default = 'logs.txt')
     parser.add_argument("--train_batch_size", default=4, type=int,
                         help="Batch size per GPU/CPU for training.")
