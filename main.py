@@ -111,17 +111,32 @@ def initialise_args():
 
     return args
 
-def get_dataset(tokenizer, type_path, args):
-    return ASTE_Dataset(tokenizer=tokenizer, data_dir=args.dataset_path,
-     task=args.task, max_len=args.max_seq_length)
+def get_dataset(tokenizer, dataset_path, task, max_seq_length):
+    return ASTE_Dataset(tokenizer=tokenizer, data_dir = dataset_path,
+     task=task, max_len=max_seq_length)
 
 class T5FineTuner(pl.LightningModule):
     def __init__(self, hparams):
         super(T5FineTuner, self).__init__()
-        self.hparams = hparams
-        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path)
+        self.model_name_or_path = hparams.model_name_or_path
+        self.train_batch_size = hparams.train_batch_size
+        self.eval_batch_size = hparams.eval_batch_size
+        self.num_train_epochs = hparams.num_train_epochs
+        self.learning_rate = hparams.learning_rate
+        self.gradient_accumulation_steps = hparams.gradient_accumulation_steps
+        self.weight_decay = hparams.weight_decay
+        self.adam_epsilon = hparams.adam_epsilon
+        self.warmup_steps = hparams.warmup_steps
+        self.train_path = hparams.train_dataset_path
+        self.dev_path = hparams.dev_dataset_path
+        self.test_path = hparams.tes_dataset_path
+        self.task = hparams.task
+        self.max_seq_length = hparams.max_seq_length
+        self.n_gpu = hparams.n_gpu
+
+        self.tokenizer = T5Tokenizer.from_pretrained(self.model_name_or_path)
         self.tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
-        self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name_or_path)
+        self.model = T5ForConditionalGeneration.from_pretrained(self.model_name_or_path)
         self.model.resize_token_embeddings(len(self.tokenizer))
 
         
@@ -181,14 +196,14 @@ class T5FineTuner(pl.LightningModule):
         optimizer_grouped_parameters = [
             {
                 "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
-                "weight_decay": self.hparams.weight_decay,
+                "weight_decay": self.weight_decay,
             },
             {
                 "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
                 "weight_decay": 0.0,
             },
         ]
-        optimizer = AdamW(optimizer_grouped_parameters, lr=self.hparams.learning_rate, eps=self.hparams.adam_epsilon)
+        optimizer = AdamW(optimizer_grouped_parameters, lr=self.learning_rate, eps=self.adam_epsilon)
         self.opt = optimizer
         return [optimizer]
 
@@ -203,22 +218,22 @@ class T5FineTuner(pl.LightningModule):
         return tqdm_dict
 
     def train_dataloader(self):
-        train_dataset = get_dataset(tokenizer=self.tokenizer, type_path="train", args=self.hparams)
-        dataloader = DataLoader(train_dataset, batch_size=self.hparams.train_batch_size, shuffle=True)
+        train_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.train_path, task = self.task, max_seq_length = self.max_seq_length )
+        dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
         t_total = (
-            (len(dataloader.dataset) // (self.hparams.train_batch_size * max(1, len(self.hparams.n_gpu))))
-            // self.hparams.gradient_accumulation_steps
-            * float(self.hparams.num_train_epochs)
+            (len(dataloader.dataset) // (self.train_batch_size * max(1, len(self.n_gpu))))
+            // self.gradient_accumulation_steps
+            * float(self.num_train_epochs)
         )
         scheduler = get_linear_schedule_with_warmup(
-            self.opt, num_warmup_steps=self.hparams.warmup_steps, num_training_steps=t_total
+            self.opt, num_warmup_steps=self.warmup_steps, num_training_steps=t_total
         )
         self.lr_scheduler = scheduler
         return dataloader
 
     def val_dataloader(self):
-        val_dataset = get_dataset(tokenizer=self.tokenizer, type_path="dev", args=self.hparams)
-        return DataLoader(val_dataset, batch_size=self.hparams.eval_batch_size, num_workers=4)
+        val_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
+        return DataLoader(val_dataset, batch_size=self.eval_batch_size, num_workers=4)
 
 
 class LoggingCallback(pl.Callback):
