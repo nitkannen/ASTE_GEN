@@ -129,7 +129,7 @@ class T5FineTuner(pl.LightningModule):
         self.warmup_steps = hparams.warmup_steps
         self.train_path = hparams.train_dataset_path
         self.dev_path = hparams.dev_dataset_path
-        self.test_path = hparams.tes_dataset_path
+        self.test_path = hparams.test_dataset_path
         self.task = hparams.task
         self.max_seq_length = hparams.max_seq_length
         self.n_gpu = hparams.n_gpu
