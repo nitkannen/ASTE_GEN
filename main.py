@@ -225,7 +225,7 @@ class T5FineTuner(pl.LightningModule):
                     using_native_amp=None,
                     using_lbfgs=None):
 
-                optimizer.step()
+                optimizer.step(closure=optimizer_closure)
                 optimizer.zero_grad()
                 self.lr_scheduler.step()
     #def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None):
