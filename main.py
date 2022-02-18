@@ -189,8 +189,8 @@ class T5FineTuner(pl.LightningModule):
             labels = np.where(batch["target_ids"][i].cpu().numpy() != -100, batch["target_ids"][i].cpu().numpy(), tokenizer.pad_token_id)
             target = tokenizer.decode(torch.tensor(labels), skip_special_tokens=False)
 
-            outputs.extend(dec)
-            targets.extend(target)
+            outputs.append(dec)
+            targets.append(target)
 
         decoded_labels = correct_spaces(targets)
         decoded_preds = correct_spaces(outputs)
