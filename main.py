@@ -146,6 +146,7 @@ class T5FineTuner(pl.LightningModule):
         self.tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
         self.model = T5ForConditionalGeneration.from_pretrained(self.model_name_or_path)
         self.model.resize_token_embeddings(len(self.tokenizer))
+        model.to('cuda')
 
         ### result cache
 
