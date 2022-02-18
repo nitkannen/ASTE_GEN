@@ -504,11 +504,18 @@ if __name__ == '__main__':
         
         test_dataset = ASTE_Dataset(tokenizer, data_path=args.test_dataset_path, task=args.task, max_len=args.max_seq_length)
         test_loader = DataLoader(test_dataset, batch_size=32)
+
+        custom_print('****Loading Checkpoint***************: ', model.best_checkpoint)
+        model_ckpt = torch.load(model.best_checkpoint)
+        tuner = T5FineTuner(args)
+        tuner.model.load_state_dict(model_ckpt)
+        _ = evaluate(test_loader, tuner)
+
         for checkpoint in all_checkpoints:
             custom_print('****Loading Checkpoint***************: ', checkpoint)
             model_ckpt = torch.load(checkpoint)
             tuner = T5FineTuner(args)
-            tuner.model.load_state_dict(model_ckpt['state_dict'])
+            tuner.model.load_state_dict(model_ckpt)
             _ = evaluate(test_loader, tuner)
     #     for checkpoint in all_checkpoints:
     #         epoch = checkpoint.split('=')[-1][:-5] if len(checkpoint) > 1 else ""
