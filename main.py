@@ -191,7 +191,7 @@ class T5FineTuner(pl.LightningModule):
                             max_length=128)
         outputs = []
         targets = []
-        print(outs)
+        #print(outs)
         for i in range(len(outs)):
 
             dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -465,7 +465,7 @@ if __name__ == '__main__':
 
         custom_print("The best Dev epoch is:", trainer.best_epoch)
 
-        
+
     
     if args.do_eval:
 
