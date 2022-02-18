@@ -24,7 +24,7 @@ def post_process(text):
 def decode_pred_triplets(text):
 
   triplets = []
-  text = text.replace("<s>", "").replace("<pad>", "").replace("</s>", "")
+  text = text.replace("<s>", "").replace("<pad>", "").replace("</s>", "").replace("<extra_id_-1>", '<triplet>').replace("<extra_id_-2>", '<opinion>' ).replace("<extra_id_-3>", '<sentiment>')
   text_processed = post_process(text)
   current = None
   aspect, opinion, sentiment = "", "", ""

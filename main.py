@@ -354,8 +354,8 @@ def evaluate(data_loader, model):
             labels = np.where(batch["target_ids"][i] != -100, batch["target_ids"][i], tokenizer.pad_token_id)
             target = tokenizer.decode(labels, skip_special_tokens=False)
 
-            outputs.extend(dec)
-            targets.extend(target)
+            outputs.append(dec)
+            targets.append(target)
 
     
     decoded_labels = correct_spaces(targets)
