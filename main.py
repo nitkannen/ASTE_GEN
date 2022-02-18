@@ -280,10 +280,6 @@ class T5FineTuner(pl.LightningModule):
         custom_print('Dev R:', round(r, 3))
         custom_print('Dev F1:', round(f, 3))
         
-        
-
-
-
         return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
     def test_step(self, batch, batch_idx):
@@ -293,6 +289,7 @@ class T5FineTuner(pl.LightningModule):
         test_outs['predictions'] = generated_triplets['predictions']
         test_outs['labels'] = generated_triplets['labels']
         return test_outs
+
 
     def test_epoch_end(self, outputs):
         
@@ -381,10 +378,12 @@ class T5FineTuner(pl.LightningModule):
         return dataloader
 
     def val_dataloader(self):
+        print("making val data")
         val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
         return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
     def test_dataloader(self):
+        print("making test data")
         test_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.test_path, task = self.task, max_seq_length = self.max_seq_length )
         return DataLoader(test_dataset, batch_size=self.eval_batch_size)
 
