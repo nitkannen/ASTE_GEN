@@ -175,6 +175,35 @@ class T5FineTuner(pl.LightningModule):
         loss = outputs[0]
         return loss
 
+    def _generate(self, batch):
+
+        outs = self.model.generate(input_ids=batch['source_ids'].to('cuda'), 
+                            attention_mask=batch['source_mask'].to('cuda'), 
+                            max_length=128)
+        outputs = []
+        targets = []
+        for i in range(len(outs)):
+
+            dec = tokenizer.decode(outs[i], skip_special_tokens=False)
+            labels = np.where(batch["target_ids"][i] != -100, batch["target_ids"][i], tokenizer.pad_token_id)
+            target = tokenizer.decode(labels, skip_special_tokens=False)
+
+            outputs.extend(dec)
+            targets.extend(target)
+
+        decoded_labels = correct_spaces(targets)
+        decoded_preds = correct_spaces(outputs)
+
+        linearized_triplets = {}
+        linearized_triplets['predictions'] = decoded_preds
+        linearized_triplets['labels'] = decoded_labels
+
+        return linearized_triplets
+
+        
+
+
+
     def training_step(self, batch, batch_idx):
         loss = self._step(batch)
 
@@ -186,18 +215,44 @@ class T5FineTuner(pl.LightningModule):
         print(outputs)
         avg_train_loss = torch.stack([x['loss'] for x in outputs]).mean()
         self.log('avg_train_loss_after_epoch_end', avg_train_loss)
-        #self.log('val_loss', val_loss, on_epoch=True, sync_dist=True)
 
     def validation_step(self, batch, batch_idx):
         loss = self._step(batch)
         self.log('val_loss', loss)
-        return loss
+        val_outs = {}
+        val_outs['loss'] = loss
+        generated_triplets = self._generate(batch)
+        val_outs['predictions'] = generated_triplets['predictions']
+        val_outs['labels'] = generated_triplets['labels']
+        return val_outs
 
 
     def validation_epoch_end(self, outputs):
         print(outputs)
-        avg_loss = torch.stack([x.item() for x in outputs]).mean()
-        self.log("val_loss", avg_loss)
+        avg_loss = torch.stack([x['loss'].item() for x in outputs]).mean()
+        self.log("avg_val_loss_after_epoch_end", avg_loss)
+        all_preds = []
+        all_labels = []
+        for i in range(len(outputs)):
+            all_preds.extend(outputs[i]['predictions'])
+            all_labels.extend(outputs[i]['labels'])
+
+        p, r, f = get_f1_for_trainer(all_preds, all_labels )
+        _, _, opinion_f = get_f1_for_trainer(all_preds, all_labels , 'opinion')
+        _, _, aspect_f = get_f1_for_trainer(all_preds, all_labels , 'aspect')
+        _, _, sentiment_f = get_f1_for_trainer(all_preds, all_labels , 'sentiment')
+
+        self.log('f1', f, on_step=False, on_epoch=True)
+        self.log('prec', p, on_step=False, on_epoch=True)
+        self.log('rec', r, on_step=False, on_epoch=True)
+        self.log('opinion', opinion_f, on_step=False, on_epoch=True)
+        self.log('aspect', aspect_f, on_step=False, on_epoch=True)
+        self.log('sentiment', sentiment_f, on_step=False, on_epoch=True)
+
+        return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
+
+        
+
 
 
     def configure_optimizers(self):
@@ -254,7 +309,7 @@ class T5FineTuner(pl.LightningModule):
         return dataloader
 
     def val_dataloader(self):
-        val_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
+        val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
         return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
 
