@@ -20,7 +20,7 @@ from torch.utils.data import RandomSampler
 from torch.utils.data import random_split
 from torch.utils.data import SequentialSampler
 from torch.utils.data import TensorDataset
-from transformers import AdamW
+from transformers.optimization import Adafactor, AdamW
 from transformers import AutoTokenizer
 from transformers import BertConfig
 from transformers import BertForTokenClassification
@@ -196,7 +196,7 @@ class T5FineTuner(pl.LightningModule):
 
     def validation_epoch_end(self, outputs):
         print(outputs)
-        avg_loss = torch.stack([x for x in outputs]).mean()
+        avg_loss = torch.stack([x.item() for x in outputs]).mean()
         self.log("val_loss", avg_loss)
 
 
