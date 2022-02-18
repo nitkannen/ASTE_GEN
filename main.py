@@ -383,6 +383,10 @@ class T5FineTuner(pl.LightningModule):
         val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
         return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
+    def test_dataloader(self):
+        test_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.test_path, task = self.task, max_seq_length = self.max_seq_length )
+        return DataLoader(test_dataset, batch_size=self.eval_batch_size)
+
 
 def evaluate(data_loader, model):
 
