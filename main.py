@@ -182,6 +182,7 @@ class T5FineTuner(pl.LightningModule):
                             max_length=128)
         outputs = []
         targets = []
+        print(outs)
         for i in range(len(outs)):
 
             dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -193,6 +194,8 @@ class T5FineTuner(pl.LightningModule):
 
         decoded_labels = correct_spaces(targets)
         decoded_preds = correct_spaces(outputs)
+        print('decoded_preds', decoded_preds)
+        print('decoded_labels', decoded_labels)
 
         linearized_triplets = {}
         linearized_triplets['predictions'] = decoded_preds
@@ -233,6 +236,7 @@ class T5FineTuner(pl.LightningModule):
         self.log("avg_val_loss_after_epoch_end", avg_loss)
         all_preds = []
         all_labels = []
+        #print(outputs)
         for i in range(len(outputs)):
             all_preds.extend(outputs[i]['predictions'])
             all_labels.extend(outputs[i]['labels'])
