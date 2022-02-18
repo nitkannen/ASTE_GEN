@@ -285,7 +285,7 @@ class T5FineTuner(pl.LightningModule):
 
         return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
-    def test_step(self, batch):
+    def test_step(self, batch, batch_idx):
 
         test_outs = {}
         generated_triplets = self._generate(batch)
