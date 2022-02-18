@@ -103,8 +103,8 @@ def is_full_match(triplet, triplets, aspect = None, opinion = None, sentiment = 
 
 def get_f1_for_trainer(predictions, target, component = None):
     
-  print(predictions)
-  print(target)
+  # print(predictions)
+  # print(target)
 
   n = len(target)
   assert n == len(predictions)
