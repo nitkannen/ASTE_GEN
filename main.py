@@ -140,10 +140,19 @@ class T5FineTuner(pl.LightningModule):
         self.max_seq_length = hparams.max_seq_length
         self.n_gpu = hparams.n_gpu
 
+        ### model init
+
         self.tokenizer = T5Tokenizer.from_pretrained(self.model_name_or_path)
         self.tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
         self.model = T5ForConditionalGeneration.from_pretrained(self.model_name_or_path)
         self.model.resize_token_embeddings(len(self.tokenizer))
+
+        ### result cache
+
+        self.best_f1 =-999999.0
+        self.best_checkpoint = None
+        self.best_epoch = None
+
 
         
 
@@ -231,7 +240,10 @@ class T5FineTuner(pl.LightningModule):
 
 
     def validation_epoch_end(self, outputs):
-        print(outputs)
+        
+        custom_print('********************************************************************')
+        custom_print('Epoch:', self.current_epoch)
+        
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
         self.log("avg_val_loss_after_epoch_end", avg_loss)
         all_preds = []
@@ -246,17 +258,72 @@ class T5FineTuner(pl.LightningModule):
         _, _, aspect_f = get_f1_for_trainer(all_preds, all_labels , 'aspect')
         _, _, sentiment_f = get_f1_for_trainer(all_preds, all_labels , 'sentiment')
 
-        self.log('f1', f, on_step=False, on_epoch=True)
-        self.log('prec', p, on_step=False, on_epoch=True)
-        self.log('rec', r, on_step=False, on_epoch=True)
-        self.log('opinion', opinion_f, on_step=False, on_epoch=True)
-        self.log('aspect', aspect_f, on_step=False, on_epoch=True)
-        self.log('sentiment', sentiment_f, on_step=False, on_epoch=True)
+        if f > self.best_f1:
+            self.best_f1 = f
+            self.best_epoch = self.current_epoch
+
+
+        self.log('step', self.current_epoch)
+
+        self.log('val f1', f, on_step=False, on_epoch=True)
+        self.log('val prec', p, on_step=False, on_epoch=True)
+        self.log('val rec', r, on_step=False, on_epoch=True)
+        self.log('val opinion', opinion_f, on_step=False, on_epoch=True)
+        self.log('val aspect', aspect_f, on_step=False, on_epoch=True)
+        self.log('val sentiment', sentiment_f, on_step=False, on_epoch=True)
+
+        custom_print('\nDev Results\n')
+        custom_print('Dev Opinion F1:', round(opinion_f, 3))
+        custom_print('Dev Aspect F1:', round(aspect_f, 3))
+        custom_print('Dev Sentiment F1:', round(sentiment_f, 3))
+        custom_print('Dev P:', round(p, 3))
+        custom_print('Dev R:', round(r, 3))
+        custom_print('Dev F1:', round(f, 3))
+        
+
+
 
         return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
-        
+    def test_step(self, batch):
 
+        test_outs = {}
+        generated_triplets = self._generate(batch)
+        test_outs['predictions'] = generated_triplets['predictions']
+        test_outs['labels'] = generated_triplets['labels']
+        return test_outs
+
+    def test_epoch_end(self, outputs):
+        
+        all_preds = []
+        all_labels = []
+        #print(outputs)
+        for i in range(len(outputs)):
+            all_preds.extend(outputs[i]['predictions'])
+            all_labels.extend(outputs[i]['labels'])
+
+        p, r, f = get_f1_for_trainer(all_preds, all_labels )
+        _, _, opinion_f = get_f1_for_trainer(all_preds, all_labels , 'opinion')
+        _, _, aspect_f = get_f1_for_trainer(all_preds, all_labels , 'aspect')
+        _, _, sentiment_f = get_f1_for_trainer(all_preds, all_labels , 'sentiment')
+
+        self.log('step', self.current_epoch)
+        self.log('test f1', f, on_step=False, on_epoch=True)
+        self.log('test prec', p, on_step=False, on_epoch=True)
+        self.log('test rec', r, on_step=False, on_epoch=True)
+        self.log('test opinion', opinion_f, on_step=False, on_epoch=True)
+        self.log('test aspect', aspect_f, on_step=False, on_epoch=True)
+        self.log('test sentiment', sentiment_f, on_step=False, on_epoch=True)
+
+        custom_print('\nTest Results\n')
+        custom_print('Test Opinion F1:', round(opinion_f, 3))
+        custom_print('Test Aspect F1:', round(aspect_f, 3))
+        custom_print('Test Sentiment F1:', round(sentiment_f, 3))
+        custom_print('Test P:', round(p, 3))
+        custom_print('Test R:', round(r, 3))
+        custom_print('Test F1:', round(f, 3))
+
+        return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
 
     def configure_optimizers(self):
@@ -316,30 +383,6 @@ class T5FineTuner(pl.LightningModule):
         val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
         return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
-
-# class LoggingCallback(pl.Callback):
-#     def on_validation_end(self, trainer, pl_module):
-#         logger.info("***** Validation results *****")
-#         if pl_module.is_logger():
-#             metrics = trainer.callback_metrics
-#         # Log results
-#         for key in sorted(metrics):
-#             if key not in ["log", "progress_bar"]:
-#                 logger.info("{} = {}\n".format(key, str(metrics[key])))
-
-#     def on_test_end(self, trainer, pl_module):
-#         logger.info("***** Test results *****")
-
-#         if pl_module.is_logger():
-#             metrics = trainer.callback_metrics
-
-#         # Log and save results to file
-#         output_test_results_file = os.path.join(pl_module.hparams.output_dir, "test_results.txt")
-#         with open(output_test_results_file, "w") as writer:
-#             for key in sorted(metrics):
-#                 if key not in ["log", "progress_bar"]:
-#                     logger.info("{} = {}\n".format(key, str(metrics[key])))
-#                     writer.write("{} = {}\n".format(key, str(metrics[key])))
 
 def evaluate(data_loader, model):
 
@@ -420,7 +463,9 @@ if __name__ == '__main__':
 
         custom_print("Finish training and saving the model!")
 
-    
+        custom_print("The best Dev epoch is:", trainer.best_epoch)
+
+        
     
     if args.do_eval:
 
