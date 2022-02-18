@@ -280,6 +280,7 @@ class T5FineTuner(pl.LightningModule):
         custom_print('Dev R:', round(r, 3))
         custom_print('Dev F1:', round(f, 3))
         
+        
 
 
 
@@ -440,12 +441,12 @@ if __name__ == '__main__':
         checkpoint_callback = []
 
         checkpoint_callback.append( ModelCheckpoint(
-            monitor='val_loss',
+            monitor='val f1',
             # monitor=None,
             save_top_k=5,
             verbose=True,
-            save_last=True,
-            mode='min'
+            save_last=False,
+            mode='max'
         ))
 
 
@@ -467,7 +468,7 @@ if __name__ == '__main__':
 
         custom_print("Finish training and saving the model!")
 
-        custom_print("The best Dev epoch is:", trainer.best_epoch)
+        custom_print("The best Dev epoch is:", model.best_epoch)
 
 
     
