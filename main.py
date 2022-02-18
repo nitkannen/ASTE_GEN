@@ -482,6 +482,7 @@ if __name__ == '__main__':
         all_checkpoints, all_epochs = [], []
 
         saved_model_dir = args.output_dir
+        saved_model_dir = os.path.join(saved_model_dir, 'lightning_logs/version_1/checkpoints/')
         for f in os.listdir(saved_model_dir):
             file_name = os.path.join(saved_model_dir, f)
             if 'cktepoch' in file_name:
