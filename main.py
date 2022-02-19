@@ -121,7 +121,7 @@ def get_dataset(tokenizer, data_path, task, max_seq_length):
      task=task, max_len=max_seq_length)
 
 class T5FineTuner(pl.LightningModule):
-    def __init__(self, hparams):
+    def __init__(self, hparams, tokenizer, model):
         super(T5FineTuner, self).__init__()
         #self.log = logger
         self.model_name_or_path = hparams.model_name_or_path
@@ -141,11 +141,8 @@ class T5FineTuner(pl.LightningModule):
         self.n_gpu = hparams.n_gpu
 
         ### model init
-
-        self.tokenizer = T5Tokenizer.from_pretrained(self.model_name_or_path)
-        self.tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
-        self.model = T5ForConditionalGeneration.from_pretrained(self.model_name_or_path)
-        self.model.resize_token_embeddings(len(self.tokenizer))
+        self.tokenizer = tokenizer
+        self.model = model
 
         ### result cache
 
@@ -435,6 +432,11 @@ if __name__ == '__main__':
     sent_map['NEG'] = 'negative'
 
     tokenizer = T5Tokenizer.from_pretrained(args.model_name_or_path)
+    
+    tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
+    tuner_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
+    tuner_model.resize_token_embeddings(len(tokenizer))
+    tuner_model.to('cuda')
 
     #logger = logging.getLogger(__name__)
     #Replace with Custom WandB logger
@@ -442,9 +444,11 @@ if __name__ == '__main__':
     custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
 
     if args.do_train:
+        print(args.do_train)
         custom_print("\n****** Conduct Training ******")
+
         
-        model = T5FineTuner(args)
+        model = T5FineTuner(args, tokenizer, tuner_model)
 
         checkpoint_callback = []
 
@@ -507,16 +511,19 @@ if __name__ == '__main__':
 
         custom_print('****Loading Checkpoint***************: ', model.best_checkpoint)
         model_ckpt = torch.load(model.best_checkpoint)
-        tuner = T5FineTuner(args)
-        tuner.model.load_state_dict(model_ckpt)
-        tuner.model.to('cuda')
+        eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
+        eval_model.resize_token_embeddings(len(tokenizer))
+        eval_model.to('cuda')
+        eval_model.load_state_dict(model_ckpt)
+        tuner = T5FineTuner(args, tokenizer, eval_model)
+        
         _ = evaluate(test_loader, tuner)
 
         for checkpoint in all_checkpoints:
             custom_print('****Loading Checkpoint***************: ', checkpoint)
             model_ckpt = torch.load(checkpoint)
-            tuner = T5FineTuner(args)
-            tuner.model.load_state_dict(model_ckpt)
+            eval_model.load_state_dict(model_ckpt)
+            tuner = T5FineTuner(args, tokenizer, eval_model)
             _ = evaluate(test_loader, tuner)
     #     for checkpoint in all_checkpoints:
     #         epoch = checkpoint.split('=')[-1][:-5] if len(checkpoint) > 1 else ""
