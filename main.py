@@ -78,10 +78,10 @@ def initialise_args():
                         help="path to test file ")
     parser.add_argument("--model_name_or_path", default='t5-base', type=str,
                         help="Path to pre-trained model or shortcut name")
-    parser.add_argument("--do_train", default = 'True', help="Whether to run training.")
-    parser.add_argument("--do_eval", help="Whether to run eval on the dev/test set.")
+    parser.add_argument("--do_train",type = bool, help="Whether to run training.")
+    parser.add_argument("--do_eval", type = bool, help="Whether to run eval on the dev/test set.")
     # parser.add_argument("--do_direct_eval", action='store_true', 
-    #                     help="Whether to run direct eval on the dev/test set.")
+    #                     help="Whether to run direct eval on the dev/test set.") ## useful when trying zero shot
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--n_gpu", default=1)
     parser.add_argument("--logger_name", default = 'logs.txt')
@@ -525,50 +525,6 @@ if __name__ == '__main__':
             eval_model.load_state_dict(model_ckpt)
             tuner = T5FineTuner(args, tokenizer, eval_model)
             _ = evaluate(test_loader, tuner)
-    #     for checkpoint in all_checkpoints:
-    #         epoch = checkpoint.split('=')[-1][:-5] if len(checkpoint) > 1 else ""
-    #         # only perform evaluation at the specific epochs ("15-19")
-    #         # eval_begin, eval_end = args.eval_begin_end.split('-')
-    #         if 0 <= int(epoch) < 100:
-    #             all_epochs.append(epoch)
-
-    #             # reload the model and conduct inference
-    #             print(f"\nLoad the trained model from {checkpoint}...")
-    #             model_ckpt = torch.load(checkpoint)
-    #             tuner = T5FineTuner(model_ckpt['hyper_parameters'])
-    #             tuner.load_state_dict(model_ckpt['state_dict'])
-    #             model = tuner.model
-    #             model.to('cuda')
-                
-    #             dev_result = evaluate(dev_loader, model)
-    #             if dev_result['f1'] > best_f1:
-    #                 best_f1 = dev_result['f1']
-    #                 best_checkpoint = checkpoint
-    #                 best_epoch = epoch
-
-    #             # add the global step to the name of these metrics for recording
-    #             # 'f1' --> 'f1_1000'
-    #             dev_result = dict((k + '_{}'.format(epoch), v) for k, v in dev_result.items())
-    #             dev_results.update(dev_result)
-
-    #             test_result = evaluate(test_loader, model)
-    #             test_result = dict((k + '_{}'.format(epoch), v) for k, v in test_result.items())
-    #             test_results.update(test_result)
-
-    # # print test results over last few steps
-    #     custom_print(f"\n\nThe best checkpoint is {best_checkpoint}")
-    #     best_step_metric = f"f1_{best_epoch}"
-    #     custom_print(f"F1 scores on test set: {test_results[best_step_metric]:.4f}")
-
-    #     custom_print("\n* Results *:  Dev  /  Test  \n")
-    #     metric_names = ['f1', 'prec', 'rec']
-    #     for epoch in all_epochs:
-    #         custom_print(f"Epoch-{epoch}:")
-    #         for name in metric_names:
-    #             name_step = f'{name}_{epoch}'
-    #             print(f"{name:<10}: {dev_results[name_step]:.4f} / {test_results[name_step]:.4f}", sep='  ')
-    #         custom_print()
-
 
 
 
