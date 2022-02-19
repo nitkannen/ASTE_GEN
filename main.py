@@ -406,6 +406,9 @@ def evaluate(data_loader, model):
     decoded_labels = correct_spaces(targets)
     decoded_preds = correct_spaces(outputs)
 
+    print(decoded_preds)
+    print(decoded_labels)
+
     p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels )
     _, _, opinion_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'opinion')
     _, _, aspect_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'aspect')
@@ -444,7 +447,7 @@ if __name__ == '__main__':
     custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
 
     if args.do_train:
-        print(args.do_train)
+
         custom_print("\n****** Conduct Training ******")
 
         
