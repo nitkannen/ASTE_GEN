@@ -522,12 +522,17 @@ if __name__ == '__main__':
         
         _ = evaluate(test_loader, tuner)
 
-        for checkpoint in all_checkpoints:
-            custom_print('****Loading Checkpoint***************: ', checkpoint)
-            model_ckpt = torch.load(checkpoint)
-            eval_model.load_state_dict(model_ckpt)
-            tuner = T5FineTuner(args, tokenizer, eval_model)
-            _ = evaluate(test_loader, tuner)
+        ## To DO:
+
+        ## Correct the top performer all checkpoints loading below
+        ## MAybe log all the generated sentences in test to the log file
+
+        # for checkpoint in all_checkpoints:
+        #     custom_print('****Loading Checkpoint***************: ', checkpoint)
+        #     model_ckpt = torch.load(checkpoint)
+        #     eval_model.load_state_dict(model_ckpt)
+        #     tuner = T5FineTuner(args, tokenizer, eval_model)
+        #     _ = evaluate(test_loader, tuner)
 
 
 
