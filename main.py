@@ -78,8 +78,8 @@ def initialise_args():
                         help="path to test file ")
     parser.add_argument("--model_name_or_path", default='t5-base', type=str,
                         help="Path to pre-trained model or shortcut name")
-    parser.add_argument("--do_train",action='store_true', type = bool, help="Whether to run training.")
-    parser.add_argument("--do_eval", action='store_true',  type = bool, help="Whether to run eval on the dev/test set.")
+    parser.add_argument("--do_train",action='store_true',  help="Whether to run training.")
+    parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev/test set.")
     # parser.add_argument("--do_direct_eval", action='store_true', 
     #                     help="Whether to run direct eval on the dev/test set.") ## useful when trying zero shot
     parser.add_argument("--max_seq_length", default=128, type=int)
