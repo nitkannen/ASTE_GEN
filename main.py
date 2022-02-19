@@ -391,7 +391,7 @@ class T5FineTuner(pl.LightningModule):
 
 def evaluate(data_loader, model):
 
-    model.eval()
+    #model.eval()
     outputs, targets = [], []
     for batch in tqdm(data_loader):
         outs = model.model.generate(input_ids=batch['source_ids'].to('cuda'), 
@@ -405,7 +405,7 @@ def evaluate(data_loader, model):
             outputs.append(dec)
             targets.append(target)
 
-    
+
     decoded_labels = correct_spaces(targets)
     decoded_preds = correct_spaces(outputs)
 
