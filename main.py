@@ -406,8 +406,9 @@ def evaluate(data_loader, model):
     decoded_labels = correct_spaces(targets)
     decoded_preds = correct_spaces(outputs)
 
-    print(decoded_preds)
-    print(decoded_labels)
+    for l in decoded_preds:
+        custom_print(l)
+    #print(decoded_labels)
 
     p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels )
     _, _, opinion_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'opinion')
@@ -512,14 +513,14 @@ if __name__ == '__main__':
         test_dataset = ASTE_Dataset(tokenizer, data_path=args.test_dataset_path, task=args.task, max_len=args.max_seq_length)
         test_loader = DataLoader(test_dataset, batch_size=32)
 
-        custom_print('****Loading Checkpoint***************: ', model.best_checkpoint)
+        custom_print('*************Loading Checkpoint***************: ', model.best_checkpoint)
         model_ckpt = torch.load(model.best_checkpoint)
         eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
         eval_model.resize_token_embeddings(len(tokenizer))
         eval_model.to('cuda')
         eval_model.load_state_dict(model_ckpt)
         tuner = T5FineTuner(args, tokenizer, eval_model)
-        
+        custom_print('**************** Printing Model Outputs for Test***************')
         _ = evaluate(test_loader, tuner)
 
         ## To DO:
