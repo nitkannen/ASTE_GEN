@@ -497,13 +497,13 @@ if __name__ == '__main__':
         best_f1, best_checkpoint, best_epoch = -999999.0, None, None
         all_checkpoints, all_epochs = [], []
 
-        saved_model_dir = args.output_dir
-        saved_model_dir = os.path.join(saved_model_dir, 'lightning_logs/version_1/checkpoints/')
-        for f in os.listdir(saved_model_dir):
-            file_name = os.path.join(saved_model_dir, f)
-            all_checkpoints.append(file_name)
+        # saved_model_dir = args.output_dir
+        # saved_model_dir = os.path.join(saved_model_dir, 'lightning_logs/version_1/checkpoints/')
+        # for f in os.listdir(saved_model_dir):
+        #     file_name = os.path.join(saved_model_dir, f)
+        #     all_checkpoints.append(file_name)
 
-        print(f"We will perform validation on the following checkpoints: {all_checkpoints}")
+        # print(f"We will perform validation on the following checkpoints: {all_checkpoints}")
 
         
             # load dev and test datasets
