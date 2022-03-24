@@ -8,12 +8,16 @@ sent_map['POS'] = 'positive'
 sent_map['NEU'] = 'neutral'
 sent_map['NEG'] = 'negative'
 
-def read_data(path):
+def read_data(path, k_shot):
 
     sents = open( path + '.sent', 'r')
     sentences = sents.readlines()
     tups = open(path +  '.tup', 'r')
     tuples = tups.readlines()
+
+    if k_shot > 0:
+        sentences = sentences[:k_shot]  ## Temporally taking just the first K examples
+        tuples = sentences[:k_shot]  ## Temporally taking just the first K examples
 
     return sentences, tuples
 
@@ -80,12 +84,13 @@ def get_transformed_data(sentences_list, tuples_list):
     return inputs, targets
 
 class ASTE_Dataset(Dataset):
-    def __init__(self, tokenizer, data_path , task, max_len=128):
+    def __init__(self, tokenizer, data_path , task, k_shot =-1, max_len=128):
         # 'data/aste/rest16/train.txt'
         self.data_path = data_path
         self.task = task
         self.max_len = max_len
         self.tokenizer = tokenizer
+        self.k_shot = k_shot
 
         self.inputs = []
         self.targets = []
@@ -107,7 +112,7 @@ class ASTE_Dataset(Dataset):
 
     def _build_examples(self):
 
-        sentences, tuples = read_data(self.data_path)
+        sentences, tuples = read_data(self.data_path, self.k_shot)
         inputs, targets = get_transformed_data(sentences, tuples)
 
         for i in range(len(inputs)):

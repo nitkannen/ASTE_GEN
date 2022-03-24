@@ -78,6 +78,8 @@ def initialise_args():
                         help="path to test file ")
     parser.add_argument("--model_name_or_path", default='t5-base', type=str,
                         help="Path to pre-trained model or shortcut name")
+    parser.add_argument("--model_weights", default='', type=str,
+                        help ="In case of external checkpoint weights")                  
     parser.add_argument("--do_train",action='store_true',  help="Whether to run training.")
     parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev/test set.")
     # parser.add_argument("--do_direct_eval", action='store_true', 
@@ -95,8 +97,10 @@ def initialise_args():
     parser.add_argument("--num_train_epochs", default=20, type=int, 
                         help="Total number of training epochs to perform.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
+    parser.add_argument('--k_shot', type=int, default=-1, help="low-resource k shot")
 
     # training details
+    parser.add_argument('--log_message', type=str, default='', help="message to be logged at start")
     parser.add_argument("--weight_decay", default=0.0, type=float)
     parser.add_argument("--adam_epsilon", default=1e-8, type=float)
     parser.add_argument("--warmup_steps", default=0.0, type=float)
@@ -116,12 +120,17 @@ def initialise_args():
 
     return args
 
-def get_dataset(tokenizer, data_path, task, max_seq_length):
+def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1):
     return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
-     task=task, max_len=max_seq_length)
+     task=task, k_shot = k_shot,  max_len=max_seq_length)
+
+def load_model_weights(model, new_checkpoint):
+    model.load_state_dict(torch.load(new_checkpoint))
+    model.train() 
+    return model
 
 class T5FineTuner(pl.LightningModule):
-    def __init__(self, hparams, tokenizer, model):
+    def __init__(self, hparams, tokenizer, model , k_shot = -1):
         super(T5FineTuner, self).__init__()
         #self.log = logger
         self.model_name_or_path = hparams.model_name_or_path
@@ -139,6 +148,7 @@ class T5FineTuner(pl.LightningModule):
         self.task = hparams.task
         self.max_seq_length = hparams.max_seq_length
         self.n_gpu = hparams.n_gpu
+        self.k_shot = k_shot
 
         ### model init
         self.tokenizer = tokenizer
@@ -208,9 +218,6 @@ class T5FineTuner(pl.LightningModule):
         linearized_triplets['labels'] = decoded_labels
 
         return linearized_triplets
-
-        
-
 
 
     def training_step(self, batch, batch_idx):
@@ -362,7 +369,7 @@ class T5FineTuner(pl.LightningModule):
         return tqdm_dict
 
     def train_dataloader(self):
-        train_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.train_path, task = self.task, max_seq_length = self.max_seq_length )
+        train_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.train_path, task = self.task, max_seq_length = self.max_seq_length, k_shot = self.k_shot )
         dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
         t_total = (
             (len(dataloader.dataset) // (self.train_batch_size * max(1, len(self.n_gpu))))
@@ -442,17 +449,24 @@ if __name__ == '__main__':
     tuner_model.resize_token_embeddings(len(tokenizer))
     tuner_model.to('cuda')
 
+    if (args.model_weights != ''):  ## initializing checkpoint weights
+        weights = args.model_weights
+        tuner_model = load_model_weights(tuner_model, weights)
+
     #logger = logging.getLogger(__name__)
     #Replace with Custom WandB logger
     logger = TensorBoardLogger(args.output_dir, name='ASTE')
     custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
+    custom_print(args.log_message)
 
+    k_shot = args.k_shot
+    
     if args.do_train:
 
         custom_print("\n****** Conduct Training ******")
 
         
-        model = T5FineTuner(args, tokenizer, tuner_model)
+        model = T5FineTuner(args, tokenizer, tuner_model, k_shot)
 
         checkpoint_callback = []
 
@@ -467,12 +481,12 @@ if __name__ == '__main__':
 
 
         train_params = dict(
-        default_root_dir=args.output_dir,
-        accumulate_grad_batches=args.gradient_accumulation_steps,
-        gpus=args.n_gpu,
-        gradient_clip_val=1.0,
-        max_epochs=args.num_train_epochs,
-        callbacks=checkpoint_callback,
+            default_root_dir=args.output_dir,
+            accumulate_grad_batches=args.gradient_accumulation_steps,
+            gpus=args.n_gpu,
+            gradient_clip_val=1.0,
+            max_epochs=args.num_train_epochs,
+            callbacks=checkpoint_callback,
         )
 
         
