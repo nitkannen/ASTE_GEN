@@ -26,6 +26,7 @@ from transformers import BertConfig
 from transformers import BertForTokenClassification
 from transformers import BertTokenizer
 from transformers import get_linear_schedule_with_warmup
+import torch.nn as nn
 import json
 import numpy as np
 import pandas as pd
@@ -89,6 +90,7 @@ def initialise_args():
     parser.add_argument("--logger_name", default = 'logs.txt')
     parser.add_argument("--train_batch_size", default=4, type=int,
                         help="Batch size per GPU/CPU for training.")
+    parser.add_argument("--use_tagger", default = False, type = bool)                
     parser.add_argument("--eval_batch_size", default=4, type=int,
                         help="Batch size per GPU/CPU for evaluation.")
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
@@ -130,7 +132,7 @@ def load_model_weights(model, new_checkpoint):
     return model
 
 class T5FineTuner(pl.LightningModule):
-    def __init__(self, hparams, tokenizer, model , k_shot = -1):
+    def __init__(self, hparams, tokenizer, model , k_shot = -1, use_tagger = False):
         super(T5FineTuner, self).__init__()
         #self.log = logger
         self.model_name_or_path = hparams.model_name_or_path
@@ -149,6 +151,7 @@ class T5FineTuner(pl.LightningModule):
         self.max_seq_length = hparams.max_seq_length
         self.n_gpu = hparams.n_gpu
         self.k_shot = k_shot
+        self.use_tagger = use_tagger
 
         ### model init
         self.tokenizer = tokenizer
@@ -160,8 +163,12 @@ class T5FineTuner(pl.LightningModule):
         self.best_checkpoint = "best_checkpoint_dev"
         self.best_epoch = None
 
+        self.classifier = nn.Linear(768, 3)  ## 3 to 5 maybe 
+        self.softmax = nn.Softmax(dim=2)
+        self.criterion = nn.CrossEntropyLoss(ignore_index=-100)
+        self.token_dropout = nn.Dropout(0.1)
 
-        
+
 
     def is_logger(self):
         return True
@@ -187,8 +194,16 @@ class T5FineTuner(pl.LightningModule):
             labels=lm_labels,
             decoder_attention_mask=batch['target_mask']
         )
-
         loss = outputs[0]
+        print(loss, "loss before tag")
+        if self.use_tagger:
+            encoder_states = outputs.encoder_last_hidden_state  
+            logits = self.classifier(self.token_dropout(encoder_states))
+            tag_loss = self.criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
+            
+            loss += tag_loss
+            print(loss, "loss after tag")
+        
         return loss
 
     def _generate(self, batch):
@@ -460,13 +475,14 @@ if __name__ == '__main__':
     custom_print(args.log_message)
 
     k_shot = args.k_shot
+    use_tagger = args.use_tagger
     
     if args.do_train:
 
         custom_print("\n****** Conduct Training ******")
 
         
-        model = T5FineTuner(args, tokenizer, tuner_model, k_shot)
+        model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger)
 
         checkpoint_callback = []
 
