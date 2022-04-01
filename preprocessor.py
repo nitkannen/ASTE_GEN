@@ -18,6 +18,7 @@ def read_data(path, k_shot):
 
     if k_shot > 0:
         sentences = sentences[:k_shot]  ## Temporally taking just the first K examples
+        print(sentences)
         tuples = sentences[:k_shot]  ## Temporally taking just the first K examples
 
     return sentences, tuples
@@ -50,6 +51,7 @@ def generate_triplet_dict(tuples, sentence):
     d = OrderedDict()
     ordered_triplets = []
     for triplet in triplets:
+        print(triplet)
         a, o, _ = triplet.split(';')
         ordered_triplets.append( ( sentence.find(a.strip()), sentence.find(o.strip())  , triplet) )
     #print(ordered_triplets)
