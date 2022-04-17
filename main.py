@@ -218,7 +218,7 @@ class T5FineTuner(pl.LightningModule):
 
         if self.regressor:
             encoder_states = outputs.encoder_last_hidden_state 
-            mask_position = torch.tensor(np.where( encoder_states.cpu().numpy() == 1, 1, 0)).to('cuda')
+            mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).to('cuda')
             masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
             sentence_embedding = torch.sum(masked_embeddings, axis = 1)
@@ -231,12 +231,10 @@ class T5FineTuner(pl.LightningModule):
             outs = self.ff2(outs)
 
             regressor_loss = self.regressor_criterion(outs, batch['triplet_count'].view(-1).type_as(outs))
-            loss += regressor_loss
+            loss += 0.4 * regressor_loss  #### Hyperparameter 0.4
             print(loss, "loss after regression")
             
         
-
-
         return loss
 
     def _generate(self, batch):
