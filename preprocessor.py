@@ -100,6 +100,7 @@ class ASTE_Dataset(Dataset):
         self.inputs = []
         self.targets = []
         self.input_tags = []
+        self.trip_counts = []
 
         self._build_examples()
 
@@ -115,9 +116,11 @@ class ASTE_Dataset(Dataset):
         src_mask = self.inputs[index]["attention_mask"].squeeze()      # might need to squeeze
         target_mask = self.targets[index]["attention_mask"].squeeze()  # might need to squeeze
         op_tags = self.input_tags[index].squeeze()
+        triplet_count = self.trip_counts[index]
         return {"source_ids": source_ids, "source_mask": src_mask, 
                 "target_ids": target_ids, "target_mask": target_mask, 
-                "op_tags": op_tags
+                "op_tags": op_tags, 
+                "triplet_count": triplet_count
                 }
 
     
@@ -174,18 +177,30 @@ class ASTE_Dataset(Dataset):
             tags.append(t)
 
         return tags
+        
+    def count_triplets(self, tuples_list):
+
+        trip_count = []
+
+        for i in range(len(tuples_list)):
+            trip_count.append(  len( tuples_list[i].split('|') ) )
+
+        return trip_count
+
 
     def _build_examples(self):
 
         sentences, tuples = read_data(self.data_path, self.k_shot)
         inputs, targets = get_transformed_data(sentences, tuples)
         input_tags = self.get_all_tags(sentences, tuples)  ### pad this and letzgoooo
+        trip_counts = self.count_triplets(tuples)
 
         for i in range(len(inputs)):
 
             input = inputs[i]
             target = targets[i]
             input_tag = input_tags[i]
+            trip_count = trip_counts[i]
 
             tokenized_input = self.tokenizer(
               [input], max_length=self.max_len, pad_to_max_length=True, truncation=True,
@@ -198,7 +213,9 @@ class ASTE_Dataset(Dataset):
             )
             input_tag = input_tag + [0] * (self.max_len - len(input_tag))
             input_tag = torch.tensor(input_tag)
+            trip_count = torch.tensor(trip_count)
 
             self.input_tags.append(input_tag)
             self.inputs.append(tokenized_input)
             self.targets.append(tokenized_target)
+            self.trip_counts.append(trip_count)
