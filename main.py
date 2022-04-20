@@ -97,6 +97,8 @@ def initialise_args():
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
     parser.add_argument("--learning_rate", default=3e-4, type=float)
+    parser.add_argument("--alpha", default=1.0, type=float)
+    parser.add_argument("--beta", default=0.2, type=float)
     parser.add_argument("--num_train_epochs", default=20, type=int, 
                         help="Total number of training epochs to perform.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
@@ -133,7 +135,7 @@ def load_model_weights(model, new_checkpoint):
     return model
 
 class T5FineTuner(pl.LightningModule):
-    def __init__(self, hparams, tokenizer, model , k_shot = -1, use_tagger = False, regressor = False):
+    def __init__(self, hparams, tokenizer, model , k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
         super(T5FineTuner, self).__init__()
         #self.log = logger
         self.model_name_or_path = hparams.model_name_or_path
@@ -154,6 +156,8 @@ class T5FineTuner(pl.LightningModule):
         self.k_shot = k_shot
         self.use_tagger = use_tagger
         self.regressor = regressor
+        self.alpha = alpha
+        self.beta = beta
 
         ### model init
         self.tokenizer = tokenizer
@@ -213,7 +217,7 @@ class T5FineTuner(pl.LightningModule):
             logits = self.classifier(self.token_dropout(encoder_states))
             tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
             
-            loss += tag_loss
+            loss += self.alpha * tag_loss
             print(loss, "loss after tag")
 
         if self.regressor:
@@ -231,7 +235,7 @@ class T5FineTuner(pl.LightningModule):
             outs = self.ff2(outs)
 
             regressor_loss = self.regressor_criterion(outs, batch['triplet_count'].view(-1).type_as(outs))
-            loss += 0.4 * regressor_loss  #### Hyperparameter 0.4
+            loss += self.beta * regressor_loss  #### Hyperparameter 0.4
             print(loss, "loss after regression")
             
         
@@ -508,13 +512,15 @@ if __name__ == '__main__':
     k_shot = args.k_shot
     use_tagger = args.use_tagger
     regressor = args.regressor
+    alpha = args.alpha
+    beta = args.beta
     
     if args.do_train:
 
         custom_print("\n****** Conduct Training ******")
 
         
-        model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor )
+        model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta )
 
         checkpoint_callback = []
 
