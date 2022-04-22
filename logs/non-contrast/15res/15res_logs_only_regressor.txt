@@ -1,0 +1,581 @@
+only_regressor
+
+****** Conduct Training ******
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.0
+Dev Aspect F1:0.0
+Dev Sentiment F1:0.0
+Dev P:0.0
+Dev R:0.0
+Dev F1:0.0
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.428
+Dev Aspect F1:0.452
+Dev Sentiment F1:0.686
+Dev P:0.576
+Dev R:0.213
+Dev F1:0.311
+********************************************************************
+Epoch:1
+
+Dev Results
+
+Dev Opinion F1:0.702
+Dev Aspect F1:0.629
+Dev Sentiment F1:0.897
+Dev P:0.361
+Dev R:0.353
+Dev F1:0.357
+********************************************************************
+Epoch:2
+
+Dev Results
+
+Dev Opinion F1:0.701
+Dev Aspect F1:0.814
+Dev Sentiment F1:0.9
+Dev P:0.538
+Dev R:0.566
+Dev F1:0.552
+********************************************************************
+Epoch:3
+
+Dev Results
+
+Dev Opinion F1:0.594
+Dev Aspect F1:0.646
+Dev Sentiment F1:0.681
+Dev P:0.389
+Dev R:0.679
+Dev F1:0.494
+********************************************************************
+Epoch:4
+
+Dev Results
+
+Dev Opinion F1:0.779
+Dev Aspect F1:0.809
+Dev Sentiment F1:0.865
+Dev P:0.628
+Dev R:0.719
+Dev F1:0.67
+********************************************************************
+Epoch:5
+
+Dev Results
+
+Dev Opinion F1:0.819
+Dev Aspect F1:0.832
+Dev Sentiment F1:0.945
+Dev P:0.68
+Dev R:0.667
+Dev F1:0.673
+********************************************************************
+Epoch:6
+
+Dev Results
+
+Dev Opinion F1:0.805
+Dev Aspect F1:0.833
+Dev Sentiment F1:0.905
+Dev P:0.681
+Dev R:0.679
+Dev F1:0.68
+********************************************************************
+Epoch:7
+
+Dev Results
+
+Dev Opinion F1:0.81
+Dev Aspect F1:0.83
+Dev Sentiment F1:0.881
+Dev P:0.642
+Dev R:0.663
+Dev F1:0.652
+********************************************************************
+Epoch:8
+
+Dev Results
+
+Dev Opinion F1:0.813
+Dev Aspect F1:0.856
+Dev Sentiment F1:0.919
+Dev P:0.671
+Dev R:0.695
+Dev F1:0.682
+********************************************************************
+Epoch:9
+
+Dev Results
+
+Dev Opinion F1:0.845
+Dev Aspect F1:0.857
+Dev Sentiment F1:0.916
+Dev P:0.704
+Dev R:0.735
+Dev F1:0.719
+********************************************************************
+Epoch:10
+
+Dev Results
+
+Dev Opinion F1:0.792
+Dev Aspect F1:0.792
+Dev Sentiment F1:0.873
+Dev P:0.612
+Dev R:0.723
+Dev F1:0.663
+********************************************************************
+Epoch:11
+
+Dev Results
+
+Dev Opinion F1:0.843
+Dev Aspect F1:0.846
+Dev Sentiment F1:0.921
+Dev P:0.707
+Dev R:0.735
+Dev F1:0.72
+********************************************************************
+Epoch:12
+
+Dev Results
+
+Dev Opinion F1:0.827
+Dev Aspect F1:0.823
+Dev Sentiment F1:0.913
+Dev P:0.677
+Dev R:0.723
+Dev F1:0.699
+********************************************************************
+Epoch:13
+
+Dev Results
+
+Dev Opinion F1:0.81
+Dev Aspect F1:0.829
+Dev Sentiment F1:0.901
+Dev P:0.668
+Dev R:0.743
+Dev F1:0.703
+********************************************************************
+Epoch:14
+
+Dev Results
+
+Dev Opinion F1:0.815
+Dev Aspect F1:0.823
+Dev Sentiment F1:0.887
+Dev P:0.662
+Dev R:0.747
+Dev F1:0.702
+********************************************************************
+Epoch:15
+
+Dev Results
+
+Dev Opinion F1:0.85
+Dev Aspect F1:0.862
+Dev Sentiment F1:0.921
+Dev P:0.704
+Dev R:0.727
+Dev F1:0.715
+********************************************************************
+Epoch:16
+
+Dev Results
+
+Dev Opinion F1:0.842
+Dev Aspect F1:0.858
+Dev Sentiment F1:0.917
+Dev P:0.708
+Dev R:0.731
+Dev F1:0.719
+********************************************************************
+Epoch:17
+
+Dev Results
+
+Dev Opinion F1:0.838
+Dev Aspect F1:0.838
+Dev Sentiment F1:0.916
+Dev P:0.695
+Dev R:0.731
+Dev F1:0.712
+********************************************************************
+Epoch:18
+
+Dev Results
+
+Dev Opinion F1:0.827
+Dev Aspect F1:0.835
+Dev Sentiment F1:0.909
+Dev P:0.684
+Dev R:0.731
+Dev F1:0.707
+********************************************************************
+Epoch:19
+
+Dev Results
+
+Dev Opinion F1:0.828
+Dev Aspect F1:0.836
+Dev Sentiment F1:0.914
+Dev P:0.681
+Dev R:0.719
+Dev F1:0.699
+Finish training and saving the model!
+The best Dev epoch is:11
+
+****** Conduct Evaluating ******
+
+Test Results
+
+Test Opinion F1:0.803
+Test Aspect F1:0.815
+Test Sentiment F1:0.871
+Test P:0.64
+Test R:0.674
+Test F1:0.657
+*************Loading Checkpoint***************: best_checkpoint_dev
+**************** Printing Model Outputs for Test***************
+ <pad>  <triplet> Al Di La  <opinion> Love  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> recommend  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pastas  <opinion> incredible  <sentiment> positive  <triplet> risottos  <opinion> fantastic  <sentiment> positive  <triplet> braised rabbit  <opinion> amazing  <sentiment> positive </s>
+ <pad>  <triplet> food  <opinion> mediocre  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> fish and chips  <opinion> overpriced  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Dog  <opinion> Tasty  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> organic dog  <opinion> awesome  <sentiment> positive  <triplet> eco friendly  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pork souvlaki  <opinion> best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Pizza  <opinion> Super  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> warm  <sentiment> positive  <opinion> inviting  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> eggplant pizza  <opinion> LOOOVE  <sentiment> positive  <triplet> pastas  <opinion> LOOOVE  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pizza  <opinion> huge  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Excellent  <sentiment> positive  <triplet> interior  <opinion> could use some help  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meal  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sake  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Sushi  <opinion> Reliable  <sentiment> positive  <opinion> Fresh  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sashimi  <opinion> fresh  <sentiment> positive  <triplet> rolls  <opinion> innovative  <sentiment> positive  <opinion> delicious  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> never had a problem  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Delivery  <opinion> spot on or lacking  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Delivery guy  <opinion> upset  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Sushi  <opinion> Best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> ruin  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sashimi  <opinion> Excellent  <sentiment> positive  <triplet> millennium roll  <opinion> delicious  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> hidden away  <sentiment> negative  <opinion> worth  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> waiter  <opinion> attentive  <sentiment> positive  <triplet> food  <opinion> delicious  <sentiment> positive  <triplet> views of the city  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Good  <sentiment> positive  <triplet> seafood spaghetti  <opinion> favorite  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Excellent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> wait staff  <opinion> courteous  <sentiment> positive  <opinion> accomodating  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> space  <opinion> limited  <sentiment> negative  <triplet> indo-chinese food  <opinion> richly rewarded  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> favorite  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> chicken pasta  <opinion> love  <sentiment> positive  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> fun  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> lobster  <opinion> good  <sentiment> neutral  <opinion> nothing spectacular  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> fun  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pizza  <opinion> overrated  <sentiment> negative  <opinion> under cooked  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> staff  <opinion> rude  <sentiment> negative  <opinion> not attentive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> love  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> quick  <sentiment> positive  <opinion> friendly  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> nice  <sentiment> positive  <opinion> clean  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> vitello alla marsala  <opinion> impressed  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> veal  <opinion> perfect  <sentiment> positive  <triplet> mushrooms  <opinion> cooked perfectly  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> potato balls  <opinion> not dry  <sentiment> negative  <opinion> buttery  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> PLACE  <opinion> WORST  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bartender  <opinion> immature  <sentiment> negative  <triplet> service  <opinion> slow  <sentiment> negative  <triplet> food  <opinion> not fresh  <sentiment> negative  <opinion> waitresses  <opinion> slow  <sentiment> negative  <opinion> waitresses  <opinion> busy  <sentiment> negative  <triplet> customers  <opinion> distracted  <sentiment> negative </s>
+ <pad>  <triplet> place  <opinion> recommend  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> fresh  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> japanese food  <opinion> overpriced  <sentiment> negative  <triplet> service  <opinion> mediocre  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> warm  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> waitress  <opinion> not attentive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> excellent  <sentiment> positive  <triplet> service  <opinion> excellent  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Red Dragon Roll  <opinion> favorite  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Seafood Dynamite  <opinion> otherworldly  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Sushi  <opinion> Favoritesites  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sushi  <opinion> good  <sentiment> positive  <triplet> service  <opinion> pleasant  <sentiment> positive  <opinion> effective  <sentiment> positive  <opinion> unassuming  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> back garden area  <opinion> nice  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> rolls  <opinion> creative  <sentiment> positive  <triplet> japanese food  <opinion> inventive  <sentiment> positive  <opinion> delicious  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Dancing  <opinion> musts  <sentiment> positive  <triplet> White River  <opinion> musts  <sentiment> positive  <triplet> Millenium rolls  <opinion> musts  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> PLACE  <opinion> LOVE  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Gross  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> guacamole  <opinion> bland  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indian Food  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> positive  <triplet> place  <opinion> clean  <sentiment> positive  <opinion> affordable  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> indian people  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> relaxing  <sentiment> positive  <triplet> wedding  <opinion> well organized  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> staff  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> drink menu  <opinion> Love  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> recommend  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> view Over river  <opinion> Nice  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> survice  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Egyptian restaurant  <opinion> dreamy  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> baba ganoush  <opinion> lemony  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Raymond  <opinion> rocks  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Pacifico  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> drinks  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> omlette  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> spinach  <opinion> fresh  <sentiment> positive  <opinion> not frozen  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> quacamole at pacifico  <opinion> yummy  <sentiment> positive  <triplet> wings with chimmichuri  <opinion> yummy  <sentiment> positive </s>
+ <pad>  <triplet> chicken in the salads  <opinion> weakness  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> portobello and asparagus mole  <opinion> fan  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> decent  <sentiment> positive  <triplet> people  <opinion> friendly  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indian Restaurant  <opinion> Best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Decor  <opinion> upgraded  <sentiment> negative  <triplet> food  <opinion> amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Astoria souvlaki spot  <opinion> best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> shine  <sentiment> positive  <triplet> ingredients  <opinion> higher quality  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Greek and Cypriot dishes  <opinion> excellent  <sentiment> positive  <triplet> gyro  <opinion> wasted  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> Best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Great  <sentiment> positive  <triplet> service  <opinion> amazing  <sentiment> positive  <triplet> place  <opinion> class act  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> veal  <opinion> incredible  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> must visit  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> shared  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> dishes  <opinion> enjoyed  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> wedding reception  <opinion> highest  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> atmosphere  <opinion> elegant  <sentiment> positive  <triplet> views  <opinion> incomparable  <sentiment> positive  <triplet> food  <opinion> fabulous  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Service  <opinion> wonderful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Paul  <opinion> professional  <sentiment> positive  <triplet> maitre d' <opinion> professional  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Service  <opinion> ok  <sentiment> negative  <opinion> unfriendly  <sentiment> negative  <triplet> bathroom  <opinion> filthy  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bar drinks  <opinion> Eh  <sentiment> neutral  <opinion> ok  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> stuff tilapia  <opinion> horrid  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> mens bathroom  <opinion> disgusting  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> wine list  <opinion> extensive  <sentiment> negative  <triplet> staff  <opinion> not seem knowledgeable  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bread  <opinion> horrible  <sentiment> negative  <opinion> rock hard  <sentiment> negative  <opinion> cold  <sentiment> negative  <triplet> appetizer of olives  <opinion> disappointing  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> main course  <opinion> wonderful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> fish  <opinion> exceeded  <sentiment> positive  <triplet> filet  <opinion> exceeded  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> dessert  <opinion> good  <sentiment> positive  <triplet> staff  <opinion> unable to provide appropriate  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> location  <opinion> Not what I would expect  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> beautiful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> seating  <opinion> great  <sentiment> positive  <opinion> cozy  <sentiment> positive  <opinion> private  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> boths  <opinion> small  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> fast  <sentiment> positive  <opinion> attentive  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> ok  <sentiment> neutral  <opinion> fair  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> looks  <opinion> exceeds actual meals  <opinion> exceeds  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Subtle  <sentiment> positive  <triplet> service  <opinion> Subtle  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> enjoy  <sentiment> positive  <triplet> food  <opinion> enjoy  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Servers  <opinion> different  <sentiment> positive  <triplet> Greg  <opinion> favorite  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> courses  <opinion> like  <sentiment> positive  <triplet> servers  <opinion> patient  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> fresh dogs  <opinion> amazing  <sentiment> positive  <triplet> toppings  <opinion> endless  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> amazing fun  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Casa La Femme  <opinion> true  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> decor  <opinion> impressed  <sentiment> positive  <triplet> food  <opinion> impressed  <sentiment> positive  <triplet> hospitality  <opinion> impressed  <sentiment> positive  <triplet> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> cocktail with Citrus Vodka  <opinion> great  <sentiment> positive  <triplet> lemon and lime juice  <opinion> great  <sentiment> positive  <triplet> mint leaves  <opinion> great  <sentiment> positive </s>
+ <pad>  <triplet> Food  <opinion> time  <sentiment> positive  <opinion> worth  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> belly dancing show  <opinion> drawn  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> worth  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> menu  <opinion> great  <sentiment> positive  <triplet> waiter  <opinion> nice  <sentiment> positive  <triplet> food  <opinion> average  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> well prepared  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> customer service  <opinion> intelligent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> Great  <sentiment> positive  <triplet> great value  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> flavorful  <sentiment> positive  <opinion> plentiful  <sentiment> positive  <opinion> reasonably priced  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> atmosphere  <opinion> relaxed  <sentiment> positive  <opinion> casual  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Sushi experience  <opinion> unbelievable  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> rolls  <opinion> Good creative  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Yamato  <opinion> excellent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> rolls  <opinion> great  <sentiment> positive  <triplet> triple color  <opinion> positive  <triplet> norwegetan rolls  <opinion> awesome  <sentiment> positive  <opinion> filling  <sentiment> positive </s>
+ <pad>  <triplet> special roll  <opinion> enough  <sentiment> positive  <triplet> regular roll  <opinion> enough  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> banana chocolate dessert  <opinion> delicious  <sentiment> positive  <triplet> green tea tempura  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> appetizers  <opinion> delicious  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> interior  <opinion> Mazing  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> spot  <opinion> delivers  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> atmosphere  <opinion> nice  <sentiment> negative  <opinion> lacking  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> mirrors  <opinion> confusing  <sentiment> negative  <triplet> modern Japanese food  <opinion> go-to  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indo Chinese food  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> fancy  <sentiment> positive  <triplet> Chinese style Indian food  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> chicken lollipop  <opinion> favorite  <sentiment> positive  <triplet> dishes  <opinion> oily  <sentiment> negative  <opinion> spicy  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> over the top  <sentiment> negative  <opinion> oily  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> horrible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> disappointing  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> wonderful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> tasty  <sentiment> positive  <opinion> delicious  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meal  <opinion> bad  <sentiment> positive  <triplet> service  <opinion> never bad  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> great  <sentiment> positive  <triplet> wine list  <opinion> great  <sentiment> positive  <triplet> service  <opinion> great  <sentiment> positive  <triplet> neighborhood  <opinion> great  <sentiment> positive </s>  <pad>
+ <pad>  <triplet> Patsy's Pizza  <opinion> love  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pizza  <opinion> best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hot dogs  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hot dogs  <opinion> juicy  <sentiment> positive  <opinion> tender  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> toppings  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> dishes  <opinion> oily  <sentiment> negative  <triplet> dining  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> Helpful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> decor  <opinion> strikes  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> tiny  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> not beautiful  <sentiment> negative  <triplet> food  <opinion> speaks for itself  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indian Chinese  <opinion> Best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> martinis  <opinion> amazing  <sentiment> positive  <opinion> fairly priced  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> SERVICE  <opinion> AMAZING  <sentiment> positive  <triplet> waiters  <opinion> nice  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> DJ  <opinion> awesome  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> menu  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> establishment  <opinion> real deal  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> superb  <sentiment> positive  <opinion> homey  <sentiment> positive  <opinion> top notch  <sentiment> positive  <triplet> wait  <opinion> worth  <sentiment> positive </s>
+ <pad>  <triplet> appetizers  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> entree  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> classy  <sentiment> positive  <opinion> beautiful  <sentiment> positive  <triplet> target  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Vanison  <opinion> good  <sentiment> neutral  <opinion> not amazing  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Bison  <opinion> excellent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Dessert  <opinion> disaster  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> expensive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> environment  <opinion> upscale  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> not be worth  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> make up for  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Service  <opinion> ok  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Casa La Femme  <opinion> offended  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> beautiful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hostess  <opinion> pleasant  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> drinks  <opinion> horrible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sides  <opinion> forgotten  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> chicken  <opinion> inedible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> negative  <triplet> belly dancers  <opinion> acceptable  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> dinner portion  <opinion> inedible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> abused  <sentiment> negative  <opinion> wasted  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> menu  <opinion> simple  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> tap beer  <opinion> disappointment  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Brahma  <opinion> gone  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> appetizers  <opinion> served quickly  <sentiment> positive  <triplet> fried oysters  <opinion> delicious  <sentiment> positive  <triplet> portion  <opinion> tiny  <sentiment> negative </s>  <pad>  <pad>  <pad>
+ <pad>  <triplet> lobster knuckles  <opinion> ok  <sentiment> neutral  <opinion> tasteless  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Thai style Fried Sea Bass  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> happy  <sentiment> positive  <triplet> Mahi Mahi  <opinion> grilled  <sentiment> negative  <triplet> Grapfruit Juice  <opinion> happy  <sentiment> negative </s>
+ <pad>  <triplet> lobster roll  <opinion> excellent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> negative  <opinion> expensive  <sentiment> positive  <opinion> fresh  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Service  <opinion> friendliest  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indian food  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Food  <opinion> amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Indian food  <opinion> normal  <sentiment> positive  <opinion> done really well  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> lunch buffet  <opinion> expensive  <sentiment> negative  <opinion> worth  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Bukhara  <opinion> top 5  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> disgusted  <sentiment> positive  <triplet> service  <opinion> disgusted  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> order  <opinion> mediocre  <sentiment> negative  <triplet> slimy  <sentiment> negative  <opinion> fish skin  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meal  <opinion> aggressive  <sentiment> negative  <opinion> disgusted  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> repulsive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> Gorgeous  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> white organza tent  <opinion> gorgeous  <sentiment> positive  <triplet> prix fix menu  <opinion> enjoyed  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> spectacular  <sentiment> positive  <triplet> waiter  <opinion> knew everything about the menu  <opinion> positive  <triplet> recommendations  <opinion> amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Casa La Femme  <opinion> impress  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bibimbap  <opinion> average  <sentiment> negative  <triplet> stone bowl  <opinion> wasn't even close to sizzling  <sentiment> negative </s>
+ <pad>  <triplet> stone bowl  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> nakgi-bokum  <opinion> horrible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> stir-fried squid  <opinion> worst  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> side dishes  <opinion> passable  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> lack  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> mess Of a dish  <opinion> barely touched  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> risotto  <opinion> amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> farro salad  <opinion> tasty  <sentiment> positive  <triplet> mashed yukon potatoes  <opinion> tasty  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> margherita pizza  <opinion> love  <sentiment> positive  <triplet> east village pizza  <opinion> looove  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> Love  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> slice  <opinion> quintessential  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> crust  <opinion> great  <sentiment> positive  <triplet> chew  <sentiment> positive  <triplet> sauce  <opinion> light  <sentiment> positive  <opinion> nice  <sentiment> positive  <triplet> salt from the cheese  <opinion> great  <sentiment> positive  <opinion> flavor  <opinion> positive </s>
+ <pad>  <triplet> margherita pizza  <opinion> like  <sentiment> positive  <triplet> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Restaurant  <opinion> Romantic  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> brasserie  <opinion> favorite  <sentiment> positive  <triplet> sushi  <opinion> romantic  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> décor  <opinion> zen  <sentiment> positive  <opinion> intimate  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> date  <opinion> like  <sentiment> positive  <triplet> ceilings  <opinion> glass  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> sashimi amuse bouche  <opinion> delightful  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Grilled Black Cod  <opinion> better  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> frozen black sesame mousse  <opinion> interesting  <sentiment> positive  <triplet> matcha ( powdered green tea  <opinion> phenomenal  <sentiment> positive  <triplet> blueberry cheesecake  <opinion> phenomenal  <sentiment> positive </s>
+ <pad>  <triplet> company  <opinion> great  <sentiment> negative  <triplet> price point  <opinion> reasonable  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> leaves to be desired  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> horrible  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Shabu Shabu  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> dishes  <opinion>n't too impressed  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meat  <opinion> fresh  <sentiment> positive  <triplet> sauces  <opinion> great  <sentiment> positive  <triplet> kimchi  <opinion> free  <sentiment> positive  <triplet> service  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Korean food  <opinion> classic  <sentiment> positive  <triplet> fusion twists  <opinion> like pork belly tacos  <opinion> right  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hot dogs  <opinion> good  <sentiment> positive  <triplet> pork croquette sandwich  <opinion> fantastic  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> family seafood entree  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> main entree  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> decor  <opinion> weird  <sentiment> negative  <triplet> stairs  <opinion> mirrored walls  <opinion> weird  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> not inviting  <sentiment> negative  <triplet> food  <opinion> weird  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> concept  <opinion> japanese tapas  <opinion> newly created  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> not comforting  <sentiment> negative  <opinion> appetizing  <sentiment> negative  <opinion> uncooked  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Food  <opinion> Good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> great  <sentiment> positive  <opinion> tasty  <sentiment> positive  <triplet> sitting space  <opinion> small  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> nice  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Pacifico  <opinion> loved  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> atmosphere  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> excellent  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> waitress  <opinion> cold  <sentiment> negative  <opinion> attentive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> servers  <opinion> perfect  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> server  <opinion> fun  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> positive  <triplet> salmon  <opinion> better  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> fit-out  <opinion> nice  <sentiment> positive  <triplet> furnishings  <opinion> attractive  <sentiment> positive  <triplet> wine list  <opinion> reasonable  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meals  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> chicken  <opinion> appalled  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> spinach  <opinion> undercooked  <sentiment> negative  <triplet> mashed potatoes  <opinion> undercooked  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> salmon  <opinion> fishy  <sentiment> negative  <opinion> dry  <sentiment> negative  <opinion> bland  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> manager  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> manager  <opinion> enjoy  <sentiment> positive  <triplet> drinks  <opinion> enjoy  <sentiment> positive  <triplet> appetizers  <opinion> enjoy  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> STAFF  <opinion> FIRED  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> crust  <opinion> cirspy  <sentiment> crust  <opinion> margherita pizza  <opinion> cirspy  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pizza  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> crust  <opinion> imazingly cooked well  <sentiment> positive  <triplet> pizza  <opinion> fully loaded  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Restaurant  <opinion> Worst  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> decor  <opinion> cool  <sentiment> positive  <triplet> pita  <opinion> good  <sentiment> positive  <triplet> hummus  <opinion> good  <sentiment> positive  <triplet> grilled octopus  <opinion> tasty  <sentiment> positive </s>
+ <pad>  <triplet> scene  <opinion> spectacular  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> decor  <opinion> distraction  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Hot Dogs  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hot dogs  <opinion> top notch  <sentiment> positive  <triplet> Slamwich  <opinion> amazing  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Bark  <opinion> worth  <sentiment> positive  <triplet> tongue  <opinion> happy  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> spot  <opinion> great  <sentiment> positive  <triplet> food  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> Fabulous  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> front of house staff  <opinion> hideous  <sentiment> negative  <triplet> waiters  <opinion> fantastic  <sentiment> negative  <triplet> people  <opinion> greet  <sentiment> negative  <triplet> fish dishes  <opinion> hideous  <sentiment> negative </s>
+ <pad>  <triplet> BFC  <opinion> refuse reservations  <sentiment> negative  <triplet> front of house staff  <opinion> abuse  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> frizzy retro girl  <opinion> yell  <sentiment> negative  <triplet> winged/ Dame Edna glasses  <opinion> yell  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> staff  <opinion> horrified  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> opinions  <opinion> uninvited  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> better  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> fine  <sentiment> positive  <triplet> service  <opinion> fine  <sentiment> negative  <triplet> maitre-D  <opinion> unwelcoming  <sentiment> negative  <opinion> arrogant  <sentiment> negative </s>  <pad>  <pad>
+ <pad>  <triplet> meals  <opinion> high-end  <sentiment> positive  <triplet> dessert  <opinion> high-end  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> frontman  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> meal  <opinion> Best  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Mussles  <opinion> superb  <sentiment> positive  <triplet> calamari  <opinion> superb  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Lamb special  <opinion> perfect  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> flank steak  <opinion> good  <sentiment> positive  <triplet> swordfish  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Four Seasons restaurant  <opinion> great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> great  <sentiment> positive  <triplet> environment  <opinion> better  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hot dog  <opinion> elevated  <sentiment> positive  <opinion> numerous variations  <opinion> available  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Atmosphere  <opinion> Great  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> fish tacos  <opinion> recommend  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> atmosphere  <opinion> Cool  <sentiment> positive  <triplet> fire place  <opinion> ads to  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> Poor  <sentiment> negative  <triplet> management  <opinion> Poor  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> Casa la Femme  <opinion> awful  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> manager  <opinion> rude  <sentiment> negative  <opinion> handled situation  <opinion> poorly  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> restaurant  <opinion> expensive  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> neutral  <opinion> not outstanding  <sentiment> neutral </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bread  <opinion> stale  <sentiment> negative  <triplet> salad  <opinion> overpriced  <sentiment> negative  <opinion> empty  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> pasta  <opinion> well cooked  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> hostess  <opinion> rude  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> bartender  <opinion> disappeared  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> staff  <opinion> rude  <sentiment> negative  <triplet> customer service  <opinion> non-existent  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> staff  <opinion> bad  <sentiment> negative </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> place  <opinion> like  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> food  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>  <pad>
+ <pad>  <triplet> design  <opinion> good  <sentiment> positive </s>  <pad>  <pad>  <pad>
+ <pad>  <triplet> service  <opinion> HORRID  <sentiment> negative </s>
+
+Test Results
+
+Test Opinion F1:0.789
+Test Aspect F1:0.821
+Test Sentiment F1:0.889
+Test P:0.632
+Test R:0.672
+Test F1:0.651
+All Done :)
