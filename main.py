@@ -171,13 +171,13 @@ class T5FineTuner(pl.LightningModule):
 
 
         #### Tagger
-        self.classifier = nn.Linear(512, 3)  ## 3 to 5 maybe 
+        self.classifier = nn.Linear(768, 3)  ## 3 to 5 maybe 
         self.softmax = nn.Softmax(dim=2)
         self.tag_criterion = nn.CrossEntropyLoss(ignore_index=-100)
         self.token_dropout = nn.Dropout(0.1)
 
         ### Regressor
-        self.regressor_layer = nn.Linear(512,128)
+        self.regressor_layer = nn.Linear(768,128)
         self.relu1 = nn.ReLU()
         self.ff1 = nn.Linear(128,64)
         self.tanh1 = nn.Tanh()
