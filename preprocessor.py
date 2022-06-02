@@ -111,13 +111,13 @@ class ASTE_Dataset(Dataset):
 
     
     def __getitem__(self, index):
-        source_ids = self.inputs[index]["input_ids"].squeeze().to(device)
-        target_ids = self.targets[index]["input_ids"].squeeze().to(device)
+        source_ids = self.inputs[index]["input_ids"].squeeze().to(self.device)
+        target_ids = self.targets[index]["input_ids"].squeeze().to(self.device)
 
-        src_mask = self.inputs[index]["attention_mask"].squeeze().to(device)      # might need to squeeze
-        target_mask = self.targets[index]["attention_mask"].squeeze().to(device)  # might need to squeeze
-        op_tags = self.input_tags[index].squeeze().to(device)
-        triplet_count = self.trip_counts[index].to(device)
+        src_mask = self.inputs[index]["attention_mask"].squeeze().to(self.device)      # might need to squeeze
+        target_mask = self.targets[index]["attention_mask"].squeeze().to(self.device)  # might need to squeeze
+        op_tags = self.input_tags[index].squeeze().to(self.device)
+        triplet_count = self.trip_counts[index].to(self.device)
         return {"source_ids": source_ids, "source_mask": src_mask, 
         "target_ids": target_ids, "target_mask": target_mask, "op_tags": op_tags, "triplet_count": triplet_count
         }
@@ -208,7 +208,7 @@ class ASTE_Dataset(Dataset):
                 [target], max_length=self.max_len, pad_to_max_length=True, truncation=True,
                 return_tensors="pt"
             ).to(self.device)
-            
+
             input_tag = input_tag + [0] * (self.max_len - len(input_tag))
             input_tag = torch.tensor(input_tag).to(self.device)
             trip_count = torch.tensor(trip_count).to(self.device)
