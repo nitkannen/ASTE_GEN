@@ -125,7 +125,6 @@ def initialise_args():
 		os.mkdir(task_dir)
 
 	output_dir = f"{task_dir}"
-
 	args.output_dir = output_dir
 
 	return args
@@ -133,19 +132,20 @@ def initialise_args():
 
 def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1):
 	return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
-	 task=task, k_shot = k_shot,  max_len=max_seq_length)
+	 task=task, k_shot = k_shot, max_len=max_seq_length)
 
 
-def load_model_weights(model, new_checkpoint):
-	model.load_state_dict(torch.load(new_checkpoint))
+def load_model_weights(model, new_checkpoint, device):
+	model.load_state_dict(torch.load(new_checkpoint)).to(device)
 	model.train() 
 	return model
 
 
 class T5FineTuner(pl.LightningModule):
-	def __init__(self, hparams, tokenizer, model , k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
+	def __init__(self, device, hparams, tokenizer, model, k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
 		super(T5FineTuner, self).__init__()
 		#self.log = logger
+		self.device = device
 		self.model_name_or_path = hparams.model_name_or_path
 		self.train_batch_size = hparams.train_batch_size
 		self.eval_batch_size = hparams.eval_batch_size
@@ -202,11 +202,11 @@ class T5FineTuner(pl.LightningModule):
 				decoder_attention_mask=None, labels=None):
 
 		return self.model(
-			input_ids,
-			attention_mask=attention_mask,
-			decoder_input_ids=decoder_input_ids,
-			decoder_attention_mask=decoder_attention_mask,
-			labels=labels,
+			input_ids.to(self.device),
+			attention_mask=attention_mask.to(self.device),
+			decoder_input_ids=decoder_input_ids.to(self.device),
+			decoder_attention_mask=decoder_attention_mask.to(self.device),
+			labels=labels.to(self.device),
 		)
 
 	
@@ -215,15 +215,15 @@ class T5FineTuner(pl.LightningModule):
 		lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
 
 		outputs = self(
-			input_ids=batch["source_ids"],
-			attention_mask=batch["source_mask"],
-			labels=lm_labels,
-			decoder_attention_mask=batch['target_mask']
+			input_ids=batch["source_ids"].to(self.device),
+			attention_mask=batch["source_mask"].to(self.device),
+			labels=lm_labels.to(self.device),
+			decoder_attention_mask=batch['target_mask'].to(self.device)
 		)
 		loss = outputs[0]
 		print(loss, "loss before tag")
 		if self.use_tagger:
-			encoder_states = outputs.encoder_last_hidden_state  
+			encoder_states = outputs.encoder_last_hidden_state.to(self.device) 
 			logits = self.classifier(self.token_dropout(encoder_states))
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
@@ -231,14 +231,12 @@ class T5FineTuner(pl.LightningModule):
 			print(loss, "loss after tag")
 
 		if self.regressor:
-			encoder_states = outputs.encoder_last_hidden_state 
-			mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0))
-			# mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
+			encoder_states = outputs.encoder_last_hidden_state.to(self.device)
+			mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(self.device)
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-			normalized_sentence_embeddings = sentence_embedding
-			# normalized_sentence_embeddings = sentence_embedding.to(device)
+			normalized_sentence_embeddings = sentence_embedding.to(self.device)
 
 			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
 			outs = self.relu1(outs)
@@ -248,16 +246,15 @@ class T5FineTuner(pl.LightningModule):
 
 			regressor_loss = self.regressor_criterion(outs, batch['triplet_count'].view(-1).type_as(outs))
 			loss += self.beta * regressor_loss  #### Hyperparameter 0.4
-			print(loss, "loss after regression")
-			
+			print(loss, "loss after regression")			
 		
 		return loss
 
 	
 	def _generate(self, batch):
 
-		outs = self.model.generate(input_ids=batch['source_ids'], #.to(device), 
-							attention_mask=batch['source_mask'], #.to(device), 
+		outs = self.model.generate(input_ids=batch['source_ids'].to(self.device), 
+							attention_mask=batch['source_mask'].to(self.device), 
 							max_length=128)
 		outputs = []
 		targets = []
@@ -459,13 +456,13 @@ class T5FineTuner(pl.LightningModule):
 		return DataLoader(test_dataset, batch_size=self.eval_batch_size)
 
 
-def evaluate(data_loader, model):
+def evaluate(data_loader, model, device):
 
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
-		outs = model.model.generate(input_ids=batch['source_ids'], #.to(device), 
-									attention_mask=batch['source_mask'], #.to(device), 
+		outs = model.model.generate(input_ids=batch['source_ids'].to(device), 
+									attention_mask=batch['source_mask'].to(device), 
 									max_length=128)
 		for i in range(len(outs)):
 			dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -513,15 +510,14 @@ if __name__ == '__main__':
 	else:
 		device = torch.device("cpu")
 
-	torch.cuda.set_device(gpu_id)
+	# torch.cuda.set_device(gpu_id)
 
 	sent_map = {}
 	sent_map['POS'] = 'positive'
 	sent_map['NEU'] = 'neutral'
 	sent_map['NEG'] = 'negative'
 
-	tokenizer = T5Tokenizer.from_pretrained(args.model_name_or_path)
-	
+	tokenizer = T5Tokenizer.from_pretrained(args.model_name_or_path)	
 	tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
 	tuner_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 	tuner_model.resize_token_embeddings(len(tokenizer))
@@ -529,7 +525,7 @@ if __name__ == '__main__':
 
 	if (args.model_weights != ''):  ## initializing checkpoint weights
 		weights = args.model_weights
-		tuner_model = load_model_weights(tuner_model, weights)
+		tuner_model = load_model_weights(tuner_model, weights, device)
 
 	#logger = logging.getLogger(__name__)
 	#Replace with Custom WandB logger
@@ -547,8 +543,8 @@ if __name__ == '__main__':
 
 		custom_print("\n****** Conduct Training ******")
 
-		
-		model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta )
+		model = T5FineTuner(device, args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta)
+		model.to(device)
 
 		# checkpoint_callback = []
 
@@ -602,7 +598,7 @@ if __name__ == '__main__':
 		# print(f"We will perform validation on the following checkpoints: {all_checkpoints}")
 
 		
-			# load dev and test datasets
+		# load dev and test datasets
 		dev_dataset = ASTE_Dataset(tokenizer, data_path=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
 		dev_loader = DataLoader(dev_dataset, batch_size=32)
 		
@@ -615,9 +611,10 @@ if __name__ == '__main__':
 		eval_model.resize_token_embeddings(len(tokenizer))
 		# eval_model.to(device)
 		eval_model.load_state_dict(model_ckpt)
-		tuner = T5FineTuner(args, tokenizer, eval_model)
+		tuner = T5FineTuner(device, args, tokenizer, eval_model)
+		tuner.to(device)
 		custom_print('**************** Printing Model Outputs for Test***************')
-		_ = evaluate(test_loader, tuner)
+		_ = evaluate(test_loader, tuner, device)
 
 		## To DO:
 
