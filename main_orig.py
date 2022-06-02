@@ -55,9 +55,8 @@ from transformers import get_linear_schedule_with_warmup
 from preprocessor import ASTE_Dataset
 from utils import correct_spaces, get_f1_for_trainer
 
-
 def custom_print(*msg):
-
+	
 	for i in range(0, len(msg)):
 		if i == len(msg) - 1:
 			print(msg[i])
@@ -65,7 +64,6 @@ def custom_print(*msg):
 		else:
 			print(msg[i], ' ', end='')
 			custom_logger.write(str(msg[i]))
-
 
 def initialise_args():
 
@@ -85,10 +83,8 @@ def initialise_args():
 						help ="In case of external checkpoint weights")                  
 	parser.add_argument("--do_train",action='store_true',  help="Whether to run training.")
 	parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev/test set.")
-	
 	# parser.add_argument("--do_direct_eval", action='store_true', 
 	#                     help="Whether to run direct eval on the dev/test set.") ## useful when trying zero shot
-	
 	parser.add_argument("--max_seq_length", default=128, type=int)
 	parser.add_argument("--n_gpu", default=1)
 	parser.add_argument('--gpu_id', type=int, default=0)
@@ -130,17 +126,14 @@ def initialise_args():
 
 	return args
 
-
 def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1):
 	return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
 	 task=task, k_shot = k_shot,  max_len=max_seq_length)
-
 
 def load_model_weights(model, new_checkpoint):
 	model.load_state_dict(torch.load(new_checkpoint))
 	model.train() 
 	return model
-
 
 class T5FineTuner(pl.LightningModule):
 	def __init__(self, hparams, tokenizer, model , k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
@@ -197,7 +190,6 @@ class T5FineTuner(pl.LightningModule):
 	def is_logger(self):
 		return True
 
-	
 	def forward(self, input_ids, attention_mask=None, decoder_input_ids=None, 
 				decoder_attention_mask=None, labels=None):
 
@@ -209,7 +201,6 @@ class T5FineTuner(pl.LightningModule):
 			labels=labels,
 		)
 
-	
 	def _step(self, batch):
 		lm_labels = batch["target_ids"]
 		lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
@@ -232,13 +223,11 @@ class T5FineTuner(pl.LightningModule):
 
 		if self.regressor:
 			encoder_states = outputs.encoder_last_hidden_state 
-			mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0))
-			# mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).cuda(gpu_id)
+			mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).cuda(gpu_id)
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-			normalized_sentence_embeddings = sentence_embedding
-			# normalized_sentence_embeddings = sentence_embedding.cuda(gpu_id)
+			normalized_sentence_embeddings = sentence_embedding.cuda(gpu_id)
 
 			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
 			outs = self.relu1(outs)
@@ -253,11 +242,10 @@ class T5FineTuner(pl.LightningModule):
 		
 		return loss
 
-	
 	def _generate(self, batch):
 
-		outs = self.model.generate(input_ids=batch['source_ids'], #.cuda(gpu_id), 
-							attention_mask=batch['source_mask'], #.cuda(gpu_id), 
+		outs = self.model.generate(input_ids=batch['source_ids'].cuda(gpu_id), 
+							attention_mask=batch['source_mask'].cuda(gpu_id), 
 							max_length=128)
 		outputs = []
 		targets = []
@@ -290,13 +278,11 @@ class T5FineTuner(pl.LightningModule):
 		self.log('train_loss', loss)
 		return loss
 
-	
 	def training_epoch_end(self, outputs):
 		print(outputs)
 		avg_train_loss = torch.stack([x['loss'] for x in outputs]).mean()
 		self.log('avg_train_loss_after_epoch_end', avg_train_loss)
 
-	
 	def validation_step(self, batch, batch_idx):
 		loss = self._step(batch)
 		self.log('val_loss', loss)
@@ -352,7 +338,6 @@ class T5FineTuner(pl.LightningModule):
 		
 		return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
-	
 	def test_step(self, batch, batch_idx):
 
 		test_outs = {}
@@ -464,8 +449,8 @@ def evaluate(data_loader, model):
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
-		outs = model.model.generate(input_ids=batch['source_ids'], #.cuda(gpu_id), 
-									attention_mask=batch['source_mask'], #.cuda(gpu_id), 
+		outs = model.model.generate(input_ids=batch['source_ids'].cuda(gpu_id), 
+									attention_mask=batch['source_mask'].cuda(gpu_id), 
 									max_length=128)
 		for i in range(len(outs)):
 			dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -498,8 +483,6 @@ def evaluate(data_loader, model):
 
 	return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
 
-
-
 if __name__ == '__main__':
 
 	args = initialise_args()
@@ -507,13 +490,6 @@ if __name__ == '__main__':
 
 	gpu_id = args.gpu_id
 	os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
-
-	if torch.cuda.is_available():
-		device = f"cuda:{gpu_id}"
-	else:
-		device = "cpu"
-
-	torch.cuda.set_device(gpu_id) 
 
 	sent_map = {}
 	sent_map['POS'] = 'positive'
@@ -525,7 +501,7 @@ if __name__ == '__main__':
 	tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
 	tuner_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 	tuner_model.resize_token_embeddings(len(tokenizer))
-	# tuner_model.cuda(gpu_id)
+	tuner_model.cuda(gpu_id)
 
 	if (args.model_weights != ''):  ## initializing checkpoint weights
 		weights = args.model_weights
@@ -613,7 +589,7 @@ if __name__ == '__main__':
 		model_ckpt = torch.load(model.best_checkpoint)
 		eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 		eval_model.resize_token_embeddings(len(tokenizer))
-		# eval_model.cuda(gpu_id)
+		eval_model.cuda(gpu_id)
 		eval_model.load_state_dict(model_ckpt)
 		tuner = T5FineTuner(args, tokenizer, eval_model)
 		custom_print('**************** Printing Model Outputs for Test***************')
@@ -636,3 +612,7 @@ if __name__ == '__main__':
 
 	custom_print("All Done :)")
 	custom_logger.close()
+	
+
+
+
