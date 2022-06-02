@@ -222,7 +222,7 @@ class T5FineTuner(pl.LightningModule):
 		print(loss, "loss before tag")
 
 		if self.use_tagger:
-			encoder_states = outputs.encoder_last_hidden_state
+			encoder_states = outputs.encoder_last_hidden_state.to(device)
 			logits = self.classifier(self.token_dropout(encoder_states))
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
@@ -230,7 +230,7 @@ class T5FineTuner(pl.LightningModule):
 			print(loss, "loss after tag")
 
 		if self.regressor:
-			encoder_states = outputs.encoder_last_hidden_state
+			encoder_states = outputs.encoder_last_hidden_state.to(device)
 			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
