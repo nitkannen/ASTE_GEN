@@ -316,9 +316,11 @@ if __name__ == '__main__':
           
     total_loss = 0
 
-    # if(epoch % 2 == 0 or epoch == 3 or epoch == 1 or epoch == 9):
-    #   name = 'model_after' + str(epoch) + 'epochs'
-    #   torch.save(model.state_dict(), name)
+    if(epoch == 10 or epoch == 9 or epoch == 6 or epoch == 12 or epoch == 9):
+         name = 'model_after' + str(epoch) + 'epochs'
+         save_path = os.path.join(os.getcwd(), 'models')
+         model_path = os.path.join(save_path, name)
+         torch.save(model.state_dict(), model_path)
 
 
     for idx, batch in enumerate(loader):
