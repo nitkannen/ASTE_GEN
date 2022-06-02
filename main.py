@@ -217,7 +217,8 @@ class T5FineTuner(pl.LightningModule):
 			attention_mask=batch["source_mask"],
 			labels=lm_labels,
 			decoder_attention_mask=batch['target_mask']
-		)
+		).to(device)
+		
 		loss = outputs[0]
 		print(loss, "loss before tag")
 
