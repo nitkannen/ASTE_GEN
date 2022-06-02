@@ -172,11 +172,11 @@ def get_f1(predictions, target, component = None):
 
       if component is None and is_full_match(gt_triplet, preds[i]):
         correct_triplets += 1
-      elif component is 'aspect' and is_full_match(gt_triplet, preds[i], aspect = True):
+      elif component == 'aspect' and is_full_match(gt_triplet, preds[i], aspect = True):
         correct_triplets += 1
-      elif component is 'opinion' and is_full_match(gt_triplet, preds[i], opinion = True):
+      elif component == 'opinion' and is_full_match(gt_triplet, preds[i], opinion = True):
         correct_triplets += 1
-      elif component is 'sentiment' and is_full_match(gt_triplet, preds[i], sentiment = True):
+      elif component == 'sentiment' and is_full_match(gt_triplet, preds[i], sentiment = True):
         correct_triplets += 1
     
     
