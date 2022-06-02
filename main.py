@@ -456,7 +456,7 @@ class T5FineTuner(pl.LightningModule):
 	def val_dataloader(self):
 		print("making val data")
 		val_dataset = get_dataset(
-			device=device
+			device=device,
 			tokenizer=self.tokenizer, 
 			data_path = self.dev_path, 
 			task = self.task, 
