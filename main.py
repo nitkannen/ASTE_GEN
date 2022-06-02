@@ -70,6 +70,7 @@ def custom_print(*msg):
 def initialise_args():
 
 	parser = argparse.ArgumentParser()
+	
 	# basic settings
 	parser.add_argument("--task", default='15res', type=str, required=True,
 						help="[15res, 14res, 16res, lap14]")
@@ -130,9 +131,9 @@ def initialise_args():
 	return args
 
 
-def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1):
+def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1, device):
 	return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
-	 task=task, k_shot = k_shot, max_len=max_seq_length)
+	 task=task, k_shot = k_shot, max_len=max_seq_length, device=device)
 
 
 def load_model_weights(model, new_checkpoint, device):
@@ -199,11 +200,11 @@ class T5FineTuner(pl.LightningModule):
 				decoder_attention_mask=None, labels=None):
 
 		return self.model(
-			input_ids.to(device),
-			attention_mask=attention_mask.to(device),
-			decoder_input_ids=decoder_input_ids.to(device),
-			decoder_attention_mask=decoder_attention_mask.to(device),
-			labels=labels.to(device),
+			input_ids,
+			attention_mask=attention_mask,
+			decoder_input_ids=decoder_input_ids,
+			decoder_attention_mask=decoder_attention_mask,
+			labels=labels,
 		)
 
 	
@@ -212,13 +213,14 @@ class T5FineTuner(pl.LightningModule):
 		lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
 
 		outputs = self(
-			input_ids=batch["source_ids"].to(device),
-			attention_mask=batch["source_mask"].to(device),
-			labels=lm_labels.to(device),
-			decoder_attention_mask=batch['target_mask'].to(device)
+			input_ids=batch["source_ids"],
+			attention_mask=batch["source_mask"],
+			labels=lm_labels,
+			decoder_attention_mask=batch['target_mask']
 		)
 		loss = outputs[0]
 		print(loss, "loss before tag")
+
 		if self.use_tagger:
 			encoder_states = outputs.encoder_last_hidden_state
 			logits = self.classifier(self.token_dropout(encoder_states))
@@ -229,11 +231,11 @@ class T5FineTuner(pl.LightningModule):
 
 		if self.regressor:
 			encoder_states = outputs.encoder_last_hidden_state
-			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
+			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0))
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-			normalized_sentence_embeddings = sentence_embedding.to(device)
+			normalized_sentence_embeddings = sentence_embedding
 
 			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
 			outs = self.relu1(outs)
@@ -250,8 +252,8 @@ class T5FineTuner(pl.LightningModule):
 	
 	def _generate(self, batch):
 
-		outs = self.model.generate(input_ids=batch['source_ids'].to(device), 
-							attention_mask=batch['source_mask'].to(device), 
+		outs = self.model.generate(input_ids=batch['source_ids'], 
+							attention_mask=batch['source_mask'], 
 							max_length=128)
 		outputs = []
 		targets = []
@@ -430,7 +432,12 @@ class T5FineTuner(pl.LightningModule):
 
 	
 	def train_dataloader(self):
-		train_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.train_path, task = self.task, max_seq_length = self.max_seq_length, k_shot = self.k_shot )
+		train_dataset = get_dataset(tokenizer=self.tokenizer, 
+			data_path =self.train_path, 
+			task = self.task, 
+			max_seq_length = self.max_seq_length, 
+			k_shot = self.k_shot,
+			device = device)
 		dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
 		t_total = (
 			(len(dataloader.dataset) // (self.train_batch_size * max(1, len(self.n_gpu))))
@@ -446,13 +453,21 @@ class T5FineTuner(pl.LightningModule):
 	
 	def val_dataloader(self):
 		print("making val data")
-		val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
+		val_dataset = get_dataset(tokenizer=self.tokenizer, 
+			data_path = self.dev_path, 
+			task = self.task, 
+			max_seq_length = self.max_seq_length,
+			device = device)
 		return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
 	
 	def test_dataloader(self):
 		print("making test data")
-		test_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.test_path, task = self.task, max_seq_length = self.max_seq_length )
+		test_dataset = get_dataset(tokenizer=self.tokenizer, 
+			data_path = self.test_path, 
+			task = self.task, 
+			max_seq_length = self.max_seq_length,
+			device = device)
 		return DataLoader(test_dataset, batch_size=self.eval_batch_size)
 
 
@@ -461,8 +476,8 @@ def evaluate(data_loader, model, device):
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
-		outs = model.model.generate(input_ids=batch['source_ids'].to(device), 
-									attention_mask=batch['source_mask'].to(device), 
+		outs = model.model.generate(input_ids=batch['source_ids'], 
+									attention_mask=batch['source_mask'], 
 									max_length=128)
 		for i in range(len(outs)):
 			dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -530,7 +545,7 @@ if __name__ == '__main__':
 	#logger = logging.getLogger(__name__)
 	#Replace with Custom WandB logger
 	logger = TensorBoardLogger(args.output_dir, name='ASTE')
-	custom_logger =  open(os.path.join(args.output_dir, args.logger_name), 'w')
+	custom_logger = open(os.path.join(args.output_dir, args.logger_name), 'w')
 	custom_print(args.log_message)
 
 	k_shot = args.k_shot
@@ -556,7 +571,6 @@ if __name__ == '__main__':
 		#     save_last=False,
 		#     mode='max'
 		# ))
-
 
 		train_params = dict(
 			default_root_dir=args.output_dir,
@@ -593,7 +607,6 @@ if __name__ == '__main__':
 		#     all_checkpoints.append(file_name)
 
 		# print(f"We will perform validation on the following checkpoints: {all_checkpoints}")
-
 		
 		# load dev and test datasets
 		dev_dataset = ASTE_Dataset(tokenizer, data_path=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
@@ -610,6 +623,7 @@ if __name__ == '__main__':
 		eval_model.load_state_dict(model_ckpt)
 		tuner = T5FineTuner(args, tokenizer, eval_model)
 		tuner.to(device)
+
 		custom_print('**************** Printing Model Outputs for Test***************')
 		_ = evaluate(test_loader, tuner, device)
 
@@ -624,9 +638,6 @@ if __name__ == '__main__':
 		#     eval_model.load_state_dict(model_ckpt)
 		#     tuner = T5FineTuner(args, tokenizer, eval_model)
 		#     _ = evaluate(test_loader, tuner)
-
-
-
 
 	custom_print("All Done :)")
 	custom_logger.close()

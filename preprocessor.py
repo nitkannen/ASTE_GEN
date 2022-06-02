@@ -3,11 +3,11 @@ from collections import OrderedDict
 import os
 import torch
 
-
 sent_map = {}
 sent_map['POS'] = 'positive'
 sent_map['NEU'] = 'neutral'
 sent_map['NEG'] = 'negative'
+
 
 def read_data(path, k_shot):
 
@@ -23,12 +23,11 @@ def read_data(path, k_shot):
 
     return sentences, tuples
 
+
 def generate_target(d):
     """
     takes a aspect triple dictionary and linearizes it
-
     """
-
     summary = ""
     if len(d.items()) == 0:
         return summary
@@ -42,6 +41,7 @@ def generate_target(d):
             summary += sent_map[opinion[1]] + ' '
 
     return summary.strip()
+
 
 def generate_triplet_dict(tuples, sentence):
     """
@@ -73,8 +73,7 @@ def get_transformed_data(sentences_list, tuples_list):
     Preprocess the raw data into Generative Targets
     """
     inputs = []
-    targets = []
-    
+    targets = []    
     
     for i in range(len(sentences_list)):
         
@@ -87,15 +86,17 @@ def get_transformed_data(sentences_list, tuples_list):
 
     return inputs, targets
 
+
 class ASTE_Dataset(Dataset):
 
-    def __init__(self, tokenizer, data_path , task, k_shot =-1, max_len=128):
+    def __init__(self, tokenizer, data_path , task, k_shot =-1, max_len=128, device):
         # 'data/aste/rest16/train.txt'
         self.data_path = data_path
         self.task = task
         self.max_len = max_len
         self.tokenizer = tokenizer
         self.k_shot = k_shot
+        self.device = device
 
         self.inputs = []
         self.targets = []
@@ -104,11 +105,11 @@ class ASTE_Dataset(Dataset):
 
         self._build_examples()
 
+    
     def __len__(self):
-        return len(self.inputs)
+        return len(self.inputs)    
 
     
-
     def __getitem__(self, index):
         source_ids = self.inputs[index]["input_ids"].squeeze()
         target_ids = self.targets[index]["input_ids"].squeeze()
@@ -117,15 +118,10 @@ class ASTE_Dataset(Dataset):
         target_mask = self.targets[index]["attention_mask"].squeeze()  # might need to squeeze
         op_tags = self.input_tags[index].squeeze()
         triplet_count = self.trip_counts[index]
-        return {"source_ids": source_ids, "source_mask": src_mask, 
-                "target_ids": target_ids, "target_mask": target_mask, 
-                "op_tags": op_tags, 
-                "triplet_count": triplet_count
-                }
+        return {"source_ids": source_ids, "source_mask": src_mask, "target_ids": target_ids, "target_mask": target_mask, 
+                "op_tags": op_tags, "triplet_count": triplet_count
+        }
 
-    
-
-    
 
     def get_tags(self, text, tuples):
         
@@ -163,6 +159,7 @@ class ASTE_Dataset(Dataset):
 
         return target
 
+    
     def get_all_tags(self, sentences_list, tuples_list):
         """
         Preprocess the raw data into tags for opinion
@@ -178,6 +175,7 @@ class ASTE_Dataset(Dataset):
 
         return tags
         
+    
     def count_triplets(self, tuples_list):
 
         trip_count = []
