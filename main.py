@@ -506,7 +506,7 @@ if __name__ == '__main__':
 	seed_everything(args.seed)
 
 	gpu_id = args.gpu_id
-	os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
+	# os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
 
 	if torch.cuda.is_available():
 		device = f"cuda:{gpu_id}"
