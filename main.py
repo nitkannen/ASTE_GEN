@@ -543,7 +543,7 @@ if __name__ == '__main__':
 
 		custom_print("\n****** Conduct Training ******")
 
-		model = T5FineTuner(device, args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta)
+		model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta)
 		model.to(device)
 
 		# checkpoint_callback = []
@@ -566,7 +566,6 @@ if __name__ == '__main__':
 			max_epochs=args.num_train_epochs,
 			#callbacks=checkpoint_callback,
 		)
-
 		
 		trainer = pl.Trainer(**train_params)
 		trainer.fit(model)
@@ -575,9 +574,7 @@ if __name__ == '__main__':
 		# model.model.save_pretrained(args.output_dir)
 
 		custom_print("Finish training and saving the model!")
-
 		custom_print("The best Dev epoch is:", model.best_epoch)
-
 
 	
 	if args.do_eval:
@@ -611,7 +608,7 @@ if __name__ == '__main__':
 		eval_model.resize_token_embeddings(len(tokenizer))
 		# eval_model.to(device)
 		eval_model.load_state_dict(model_ckpt)
-		tuner = T5FineTuner(device, args, tokenizer, eval_model)
+		tuner = T5FineTuner(args, tokenizer, eval_model)
 		tuner.to(device)
 		custom_print('**************** Printing Model Outputs for Test***************')
 		_ = evaluate(test_loader, tuner, device)
