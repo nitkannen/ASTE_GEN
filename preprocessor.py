@@ -89,7 +89,7 @@ def get_transformed_data(sentences_list, tuples_list):
 
 class ASTE_Dataset(Dataset):
 
-    def __init__(self, tokenizer, data_path , task, k_shot =-1, max_len=128, device):
+    def __init__(self, device, tokenizer, data_path , task, k_shot =-1, max_len=128):
         # 'data/aste/rest16/train.txt'
         self.data_path = data_path
         self.task = task
@@ -118,15 +118,14 @@ class ASTE_Dataset(Dataset):
         target_mask = self.targets[index]["attention_mask"].squeeze()  # might need to squeeze
         op_tags = self.input_tags[index].squeeze()
         triplet_count = self.trip_counts[index]
-        return {"source_ids": source_ids, "source_mask": src_mask, "target_ids": target_ids, "target_mask": target_mask, 
-                "op_tags": op_tags, "triplet_count": triplet_count
+        return {"source_ids": source_ids, "source_mask": src_mask, 
+        "target_ids": target_ids, "target_mask": target_mask, "op_tags": op_tags, "triplet_count": triplet_count
         }
 
 
     def get_tags(self, text, tuples):
         
         tuples.split('|')
-
         triplets = tuples.split('|')
         target_tokens = []
         for triplet in triplets:
@@ -134,7 +133,6 @@ class ASTE_Dataset(Dataset):
             target_tokens.append(o.strip())
 
         tokens = self.tokenizer.tokenize(text.strip())
-
         target = [0 for i in range(len(tokens))]
 
         for target_token in target_tokens:
@@ -181,7 +179,7 @@ class ASTE_Dataset(Dataset):
         trip_count = []
 
         for i in range(len(tuples_list)):
-            trip_count.append(  len( tuples_list[i].split('|') ) )
+            trip_count.append( len( tuples_list[i].split('|') ) )
 
         return trip_count
 

@@ -131,9 +131,9 @@ def initialise_args():
 	return args
 
 
-def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot = -1, device):
-	return ASTE_Dataset(tokenizer=tokenizer, data_path = data_path,
-	 task=task, k_shot = k_shot, max_len=max_seq_length, device=device)
+def get_dataset(device, tokenizer, data_path, task, max_seq_length, k_shot=-1):
+	return ASTE_Dataset(device=device, tokenizer=tokenizer, data_path = data_path,
+	 task=task, k_shot=k_shot, max_len=max_seq_length)
 
 
 def load_model_weights(model, new_checkpoint, device):
@@ -432,12 +432,14 @@ class T5FineTuner(pl.LightningModule):
 
 	
 	def train_dataloader(self):
-		train_dataset = get_dataset(tokenizer=self.tokenizer, 
+		train_dataset = get_dataset(
+			device=device,
+			tokenizer=self.tokenizer, 
 			data_path =self.train_path, 
 			task = self.task, 
 			max_seq_length = self.max_seq_length, 
-			k_shot = self.k_shot,
-			device = device)
+			k_shot = self.k_shot
+			)
 		dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
 		t_total = (
 			(len(dataloader.dataset) // (self.train_batch_size * max(1, len(self.n_gpu))))
@@ -453,21 +455,25 @@ class T5FineTuner(pl.LightningModule):
 	
 	def val_dataloader(self):
 		print("making val data")
-		val_dataset = get_dataset(tokenizer=self.tokenizer, 
+		val_dataset = get_dataset(
+			device=device
+			tokenizer=self.tokenizer, 
 			data_path = self.dev_path, 
 			task = self.task, 
-			max_seq_length = self.max_seq_length,
-			device = device)
+			max_seq_length = self.max_seq_length
+			)
 		return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
 	
 	def test_dataloader(self):
 		print("making test data")
-		test_dataset = get_dataset(tokenizer=self.tokenizer, 
+		test_dataset = get_dataset(
+			device=device,
+			tokenizer=self.tokenizer, 
 			data_path = self.test_path, 
 			task = self.task, 
-			max_seq_length = self.max_seq_length,
-			device = device)
+			max_seq_length = self.max_seq_length
+			)
 		return DataLoader(test_dataset, batch_size=self.eval_batch_size)
 
 
