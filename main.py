@@ -142,10 +142,9 @@ def load_model_weights(model, new_checkpoint, device):
 
 
 class T5FineTuner(pl.LightningModule):
-	def __init__(self, device, hparams, tokenizer, model, k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
+	def __init__(self, hparams, tokenizer, model, k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
 		super(T5FineTuner, self).__init__()
 		#self.log = logger
-		self.device = device
 		self.model_name_or_path = hparams.model_name_or_path
 		self.train_batch_size = hparams.train_batch_size
 		self.eval_batch_size = hparams.eval_batch_size
@@ -173,10 +172,9 @@ class T5FineTuner(pl.LightningModule):
 
 		### result cache
 
-		self.best_f1 =-999999.0
+		self.best_f1 = -999999.0
 		self.best_checkpoint = "best_checkpoint_dev"
 		self.best_epoch = None
-
 
 		#### Tagger
 		self.classifier = nn.Linear(768, 3)  ## 3 to 5 maybe 
@@ -185,13 +183,12 @@ class T5FineTuner(pl.LightningModule):
 		self.token_dropout = nn.Dropout(0.1)
 
 		### Regressor
-		self.regressor_layer = nn.Linear(768,128)
+		self.regressor_layer = nn.Linear(768, 128)
 		self.relu1 = nn.ReLU()
-		self.ff1 = nn.Linear(128,64)
+		self.ff1 = nn.Linear(128, 64)
 		self.tanh1 = nn.Tanh()
-		self.ff2 = nn.Linear(64,1)
+		self.ff2 = nn.Linear(64, 1)
 		self.regressor_criterion = nn.MSELoss()
-
 
 
 	def is_logger(self):
@@ -202,11 +199,11 @@ class T5FineTuner(pl.LightningModule):
 				decoder_attention_mask=None, labels=None):
 
 		return self.model(
-			input_ids.to(self.device),
-			attention_mask=attention_mask.to(self.device),
-			decoder_input_ids=decoder_input_ids.to(self.device),
-			decoder_attention_mask=decoder_attention_mask.to(self.device),
-			labels=labels.to(self.device),
+			input_ids.to(device),
+			attention_mask=attention_mask.to(device),
+			decoder_input_ids=decoder_input_ids.to(device),
+			decoder_attention_mask=decoder_attention_mask.to(device),
+			labels=labels.to(device),
 		)
 
 	
@@ -215,15 +212,15 @@ class T5FineTuner(pl.LightningModule):
 		lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
 
 		outputs = self(
-			input_ids=batch["source_ids"].to(self.device),
-			attention_mask=batch["source_mask"].to(self.device),
-			labels=lm_labels.to(self.device),
-			decoder_attention_mask=batch['target_mask'].to(self.device)
+			input_ids=batch["source_ids"].to(device),
+			attention_mask=batch["source_mask"].to(device),
+			labels=lm_labels.to(device),
+			decoder_attention_mask=batch['target_mask'].to(device)
 		)
 		loss = outputs[0]
 		print(loss, "loss before tag")
 		if self.use_tagger:
-			encoder_states = outputs.encoder_last_hidden_state.to(self.device) 
+			encoder_states = outputs.encoder_last_hidden_state
 			logits = self.classifier(self.token_dropout(encoder_states))
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
@@ -231,12 +228,12 @@ class T5FineTuner(pl.LightningModule):
 			print(loss, "loss after tag")
 
 		if self.regressor:
-			encoder_states = outputs.encoder_last_hidden_state.to(self.device)
-			mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(self.device)
+			encoder_states = outputs.encoder_last_hidden_state
+			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-			normalized_sentence_embeddings = sentence_embedding.to(self.device)
+			normalized_sentence_embeddings = sentence_embedding.to(device)
 
 			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
 			outs = self.relu1(outs)
@@ -253,8 +250,8 @@ class T5FineTuner(pl.LightningModule):
 	
 	def _generate(self, batch):
 
-		outs = self.model.generate(input_ids=batch['source_ids'].to(self.device), 
-							attention_mask=batch['source_mask'].to(self.device), 
+		outs = self.model.generate(input_ids=batch['source_ids'].to(device), 
+							attention_mask=batch['source_mask'].to(device), 
 							max_length=128)
 		outputs = []
 		targets = []
@@ -410,6 +407,8 @@ class T5FineTuner(pl.LightningModule):
 		self.opt = optimizer
 		return [optimizer]
 
+	
+	# def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None):
 	def optimizer_step(self,
 					epoch=None,
 					batch_idx=None,
@@ -423,14 +422,13 @@ class T5FineTuner(pl.LightningModule):
 				optimizer.step(closure=optimizer_closure)
 				optimizer.zero_grad()
 				self.lr_scheduler.step()
-	#def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None):
 		
 		
-
 	def get_tqdm_dict(self):
 		tqdm_dict = {"loss": "{:.4f}".format(self.trainer.avg_loss), "lr": self.lr_scheduler.get_last_lr()[-1]}
 		return tqdm_dict
 
+	
 	def train_dataloader(self):
 		train_dataset = get_dataset(tokenizer=self.tokenizer, data_path =self.train_path, task = self.task, max_seq_length = self.max_seq_length, k_shot = self.k_shot )
 		dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
@@ -445,11 +443,13 @@ class T5FineTuner(pl.LightningModule):
 		self.lr_scheduler = scheduler
 		return dataloader
 
+	
 	def val_dataloader(self):
 		print("making val data")
 		val_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.dev_path, task = self.task, max_seq_length = self.max_seq_length )
 		return DataLoader(val_dataset, batch_size=self.eval_batch_size)
 
+	
 	def test_dataloader(self):
 		print("making test data")
 		test_dataset = get_dataset(tokenizer=self.tokenizer, data_path = self.test_path, task = self.task, max_seq_length = self.max_seq_length )
