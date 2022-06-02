@@ -87,6 +87,7 @@ def initialise_args():
     #                     help="Whether to run direct eval on the dev/test set.") ## useful when trying zero shot
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--n_gpu", default=1)
+    parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument("--logger_name", default = 'logs.txt')
     parser.add_argument("--train_batch_size", default=4, type=int,
                         help="Batch size per GPU/CPU for training.")
@@ -222,11 +223,11 @@ class T5FineTuner(pl.LightningModule):
 
         if self.regressor:
             encoder_states = outputs.encoder_last_hidden_state 
-            mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).to('cuda')
+            mask_position = torch.tensor(np.where( batch["source_ids"].cpu().numpy() == 1, 1, 0)).cuda(gpu_id)
             masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
             sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-            normalized_sentence_embeddings = sentence_embedding.cuda()
+            normalized_sentence_embeddings = sentence_embedding.cuda(gpu_id)
 
             outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
             outs = self.relu1(outs)
@@ -243,8 +244,8 @@ class T5FineTuner(pl.LightningModule):
 
     def _generate(self, batch):
 
-        outs = self.model.generate(input_ids=batch['source_ids'].to('cuda'), 
-                            attention_mask=batch['source_mask'].to('cuda'), 
+        outs = self.model.generate(input_ids=batch['source_ids'].cuda(gpu_id), 
+                            attention_mask=batch['source_mask'].cuda(gpu_id), 
                             max_length=128)
         outputs = []
         targets = []
@@ -448,8 +449,8 @@ def evaluate(data_loader, model):
     #model.eval()
     outputs, targets = [], []
     for batch in tqdm(data_loader):
-        outs = model.model.generate(input_ids=batch['source_ids'].to('cuda'), 
-                                    attention_mask=batch['source_mask'].to('cuda'), 
+        outs = model.model.generate(input_ids=batch['source_ids'].cuda(gpu_id), 
+                                    attention_mask=batch['source_mask'].cuda(gpu_id), 
                                     max_length=128)
         for i in range(len(outs)):
             dec = tokenizer.decode(outs[i], skip_special_tokens=False)
@@ -487,6 +488,9 @@ if __name__ == '__main__':
     args = initialise_args()
     seed_everything(args.seed)
 
+    gpu_id = args.gpu_id
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
+
     sent_map = {}
     sent_map['POS'] = 'positive'
     sent_map['NEU'] = 'neutral'
@@ -497,7 +501,7 @@ if __name__ == '__main__':
     tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
     tuner_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
     tuner_model.resize_token_embeddings(len(tokenizer))
-    tuner_model.to('cuda')
+    tuner_model.cuda(gpu_id)
 
     if (args.model_weights != ''):  ## initializing checkpoint weights
         weights = args.model_weights
@@ -585,7 +589,7 @@ if __name__ == '__main__':
         model_ckpt = torch.load(model.best_checkpoint)
         eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
         eval_model.resize_token_embeddings(len(tokenizer))
-        eval_model.to('cuda')
+        eval_model.cuda(gpu_id)
         eval_model.load_state_dict(model_ckpt)
         tuner = T5FineTuner(args, tokenizer, eval_model)
         custom_print('**************** Printing Model Outputs for Test***************')
