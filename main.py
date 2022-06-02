@@ -223,7 +223,7 @@ class T5FineTuner(pl.LightningModule):
 
 		if self.use_tagger:
 			encoder_states = outputs.encoder_last_hidden_state.to(device)
-			logits = self.classifier(self.token_dropout(encoder_states))
+			logits = self.classifier(self.token_dropout(encoder_states)).to(device)
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
 			loss += self.alpha * tag_loss
@@ -237,7 +237,7 @@ class T5FineTuner(pl.LightningModule):
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
 			normalized_sentence_embeddings = sentence_embedding.to(device)
 
-			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
+			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings)).to(device)
 			outs = self.relu1(outs)
 			outs = self.ff1(outs)
 			outs = self.tanh1(outs)
