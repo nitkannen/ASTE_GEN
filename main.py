@@ -522,16 +522,16 @@ if __name__ == '__main__':
         
         model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta )
 
-        checkpoint_callback = []
+        # checkpoint_callback = []
 
-        checkpoint_callback.append( ModelCheckpoint(
-            monitor='val f1',
-            # monitor=None,
-            save_top_k=5,
-            verbose=True,
-            save_last=False,
-            mode='max'
-        ))
+        # checkpoint_callback.append( ModelCheckpoint(
+        #     monitor='val f1',
+        #     # monitor=None,
+        #     save_top_k=5,
+        #     verbose=True,
+        #     save_last=False,
+        #     mode='max'
+        # ))
 
 
         train_params = dict(
@@ -540,7 +540,7 @@ if __name__ == '__main__':
             gpus=args.n_gpu,
             gradient_clip_val=1.0,
             max_epochs=args.num_train_epochs,
-            callbacks=checkpoint_callback,
+            #callbacks=checkpoint_callback,
         )
 
         
