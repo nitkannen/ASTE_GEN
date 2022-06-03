@@ -136,7 +136,8 @@ def get_dataset(device, tokenizer, data_path, task, max_seq_length, k_shot=-1):
 
 
 def load_model_weights(model, new_checkpoint, device):
-	model.load_state_dict(torch.load(new_checkpoint)).to(device)
+	# model.load_state_dict(torch.load(new_checkpoint)).to(device)
+	model.load_state_dict(torch.load(new_checkpoint))
 	model.train() 
 	return model
 
@@ -221,22 +222,22 @@ class T5FineTuner(pl.LightningModule):
 		print(loss, "loss before tag")
 
 		if self.use_tagger:
-			encoder_states = outputs.encoder_last_hidden_state.to(device)
-			logits = self.classifier(self.token_dropout(encoder_states)).to(device)
+			encoder_states = outputs.encoder_last_hidden_state
+			logits = self.classifier(self.token_dropout(encoder_states))
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
 			loss += self.alpha * tag_loss
 			print(loss, "loss after tag")
 
 		if self.regressor:
-			encoder_states = outputs.encoder_last_hidden_state.to(device)
-			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
+			encoder_states = outputs.encoder_last_hidden_state
+			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0))
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
-			normalized_sentence_embeddings = sentence_embedding.to(device)
+			normalized_sentence_embeddings = sentence_embedding
 
-			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings)).to(device)
+			outs = self.regressor_layer(self.token_dropout(normalized_sentence_embeddings))
 			outs = self.relu1(outs)
 			outs = self.ff1(outs)
 			outs = self.tanh1(outs)
@@ -280,8 +281,6 @@ class T5FineTuner(pl.LightningModule):
 
 	def training_step(self, batch, batch_idx):
 		loss = self._step(batch)
-
-		#logs = {"train_loss": loss}
 		self.log('train_loss', loss)
 		return loss
 
@@ -563,7 +562,7 @@ if __name__ == '__main__':
 		custom_print("\n****** Conduct Training ******")
 
 		model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta)
-		model.to(device)
+		# model.to(device)
 
 		# checkpoint_callback = []
 
@@ -577,6 +576,7 @@ if __name__ == '__main__':
 		# ))
 
 		train_params = dict(
+			gpus=[1],
 			default_root_dir=args.output_dir,
 			accumulate_grad_batches=args.gradient_accumulation_steps,
 			gpus=args.n_gpu,
