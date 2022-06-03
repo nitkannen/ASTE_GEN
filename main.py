@@ -577,9 +577,9 @@ if __name__ == '__main__':
 
 		train_params = dict(
 			gpus=[1],
+			# gpus=args.n_gpu,
 			default_root_dir=args.output_dir,
-			accumulate_grad_batches=args.gradient_accumulation_steps,
-			gpus=args.n_gpu,
+			accumulate_grad_batches=args.gradient_accumulation_steps,			
 			gradient_clip_val=1.0,
 			max_epochs=args.num_train_epochs,
 			#callbacks=checkpoint_callback,
