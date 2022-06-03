@@ -91,15 +91,14 @@ def get_transformed_data(sentences_list, tuples_list):
 
 class ASTE_Dataset(Dataset):
 
-	def __init__(self, device, tokenizer, data_path , task, k_shot =-1, max_len=128):
+	def __init__(self, tokenizer, data_path , task, k_shot =-1, max_len=128):
 		# 'data/aste/rest16/train.txt'
 		self.data_path = data_path
 		self.task = task
 		self.max_len = max_len
 		self.tokenizer = tokenizer
 		self.k_shot = k_shot
-		self.device = device
-
+		
 		self.inputs = []
 		self.targets = []
 		self.input_tags = []

@@ -121,8 +121,8 @@ def initialise_args():
 	return args
 
 
-def get_dataset(device, tokenizer, data_path, task, max_seq_length, k_shot=-1):
-	return ASTE_Dataset(device=device, tokenizer=tokenizer, data_path=data_path,
+def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot=-1):
+	return ASTE_Dataset(tokenizer=tokenizer, data_path=data_path,
 	 task=task, k_shot=k_shot, max_len=max_seq_length)
 
 
@@ -210,7 +210,7 @@ class T5FineTuner(pl.LightningModule):
 			decoder_attention_mask=batch['target_mask']
 		)
 		loss = outputs[0]
-		print(loss, "loss before tag")
+		# print(loss, "loss before tag")
 
 		if self.use_tagger:
 			encoder_states = outputs.encoder_last_hidden_state
@@ -218,7 +218,7 @@ class T5FineTuner(pl.LightningModule):
 			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
 			loss += self.alpha * tag_loss
-			print(loss, "loss after tag")
+			# print(loss, "loss after tag")
 
 		if self.regressor:
 			encoder_states = outputs.encoder_last_hidden_state
@@ -236,7 +236,7 @@ class T5FineTuner(pl.LightningModule):
 
 			regressor_loss = self.regressor_criterion(outs, batch['triplet_count'].view(-1).type_as(outs))
 			loss += self.beta * regressor_loss  #### Hyperparameter 0.4
-			print(loss, "loss after regression")			
+			# print(loss, "loss after regression")			
 		
 		return loss
 
@@ -488,8 +488,8 @@ def evaluate(data_loader, model, device):
 	decoded_labels = correct_spaces(targets)
 	decoded_preds = correct_spaces(outputs)
 
-	for l in decoded_preds:
-		custom_print(l)
+	# for l in decoded_preds:
+	# 	custom_print(l)
 	#print(decoded_labels)
 
 	p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels )
