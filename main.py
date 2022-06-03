@@ -269,8 +269,8 @@ class T5FineTuner(pl.LightningModule):
 
 		decoded_labels = correct_spaces(targets)
 		decoded_preds = correct_spaces(outputs)
-		print('decoded_preds', decoded_preds)
-		print('decoded_labels', decoded_labels)
+		# print('decoded_preds', decoded_preds)
+		# print('decoded_labels', decoded_labels)
 
 		linearized_triplets = {}
 		linearized_triplets['predictions'] = decoded_preds
