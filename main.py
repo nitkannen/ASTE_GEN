@@ -431,7 +431,7 @@ class T5FineTuner(pl.LightningModule):
 			)
 		dataloader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
 		t_total = (
-			(len(dataloader.dataset) // (self.train_batch_size * max(1, len(self.n_gpu))))
+			(len(dataloader.dataset) // (self.train_batch_size * max(1, self.n_gpu)))
 			// self.gradient_accumulation_steps
 			* float(self.num_train_epochs)
 		)
