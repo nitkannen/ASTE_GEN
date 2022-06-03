@@ -231,7 +231,7 @@ class T5FineTuner(pl.LightningModule):
 
 		if self.regressor:
 			encoder_states = outputs.encoder_last_hidden_state
-			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0))
+			mask_position = torch.tensor(np.where(batch["source_ids"].cpu().numpy() == 1, 1, 0)).to(device)
 			masked_embeddings = encoder_states * mask_position.unsqueeze(2)
 
 			sentence_embedding = torch.sum(masked_embeddings, axis = 1)
