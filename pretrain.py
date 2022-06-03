@@ -119,8 +119,7 @@ def load_model(model_checkpoint, tokenizer):
   
   model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
   model.resize_token_embeddings(len(tokenizer))
-  model.to('cuda')
-
+  model.to(device)
 def random_seed(seed_value ):
     
     np.random.seed(seed_value)  
@@ -153,9 +152,9 @@ class SupConLoss(nn.Module):
         Returns:
             A loss scalar.
         """
-        device = (torch.device('cuda')
-                  if features.is_cuda
-                  else torch.device('cpu'))
+        # device = (torch.device('cuda')
+        #           if features.is_cuda
+        #           else torch.device('cpu'))
 
         if len(features.shape) < 3:
             raise ValueError('`features` needs to be [bsz, n_views, ...],'
@@ -257,7 +256,7 @@ def _shift_right( input_ids):
 
     assert torch.all(shifted_input_ids >= 0).item(), "Verify that `shifted_input_ids` has only positive values"
 
-    return shifted_input_ids.to('cuda')
+    return shifted_input_ids.to(device)
 
 
 
@@ -278,11 +277,22 @@ if __name__ == '__main__':
   parser.add_argument('--batch_size', type=int, default=16, help="size_batch_for_contrastive")
 
   parser.add_argument('--epochs', type=int, default=20, help="contrastive pretrain epochs")
+  parser.add_argument('--gpu_id', type=int, default=0)
+
+  
 
   args = parser.parse_args()
 
   if not os.path.exists('./models'):
       os.mkdir('./models')
+
+    
+  gpu_id = args.gpu_id
+
+  if torch.cuda.is_available():
+    device = torch.device(f"cuda:{gpu_id}")
+  else:
+    device = torch.device("cpu")
 
   random_seed(args.seed)
 
@@ -316,7 +326,7 @@ if __name__ == '__main__':
           
     total_loss = 0
 
-    if(epoch == 10 or epoch == 8 or epoch == 6 or epoch == 12 or epoch == 9):
+    if(epoch == 10 or epoch == 8 or epoch == 6 or epoch == 12 or epoch == 9): ## needs editing
          name = 'model_after' + str(epoch) + 'epochs'
          save_path = os.path.join(os.getcwd(), 'models')
          model_path = os.path.join(save_path, name)
@@ -328,11 +338,11 @@ if __name__ == '__main__':
           model.train()
           
           input_ids, attention_mask, decoder_input_ids, decoder_att_ids,  labels = batch
-          input_ids = input_ids.to('cuda')
-          attention_mask = attention_mask.to('cuda')
-          labels = labels.to('cuda')
-          decoder_input_ids = decoder_input_ids.to('cuda')
-          decoder_att_ids = decoder_att_ids.to('cuda')
+          input_ids = input_ids.to(device)
+          attention_mask = attention_mask.to(device)
+          labels = labels.to(device)
+          decoder_input_ids = decoder_input_ids.to(device)
+          decoder_att_ids = decoder_att_ids.to(device)
 
           if has_opposite_labels(labels):
             outputs = model(
@@ -342,7 +352,7 @@ if __name__ == '__main__':
                 output_hidden_states = True
             )
             #print(outputs.decoder_hidden_states)
-            mask_position = torch.tensor(np.where( decoder_input_ids.cpu().numpy() == 32099, 1, 0)).to('cuda')
+            mask_position = torch.tensor(np.where( decoder_input_ids.cpu().numpy() == 32099, 1, 0)).to(device)
             #right_shifted_mask_position = _shift_right(mask_position)
             #print(mask_position)
             masked_embeddings = outputs.decoder_hidden_states[-1]  * mask_position.unsqueeze(2)
@@ -351,7 +361,7 @@ if __name__ == '__main__':
             #print(masked_embeddings.shape)
             sentence_embedding = torch.sum(masked_embeddings, axis = 1)
 
-            normalized_sentence_embeddings = sentence_embedding.cuda()
+            normalized_sentence_embeddings = sentence_embedding.to(device)
             #print(normalized_sentence_embeddings)
             #print(normalized_sentence_embeddings.shape)
             similar_loss = contrast_criterion(normalized_sentence_embeddings.unsqueeze(1), labels=labels)
