@@ -468,12 +468,9 @@ def evaluate(data_loader, model, device):
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
-		batch['source_ids'] = batch['source_ids'].to(device)
-		batch['source_mask'] = batch['source_mask'].to(device)
-		batch['target_ids'] = batch['target_ids'].to(device)
-		outs = model.model.generate(input_ids=batch['source_ids'], 
-									attention_mask=batch['source_mask'], 
-									max_length=128).to(device)
+		outs = model.model.generate(input_ids=batch['source_ids'].to(device), 
+									attention_mask=batch['source_mask'].to(device), 
+									max_length=128)
 		for i in range(len(outs)):
 			dec = tokenizer.decode(outs[i], skip_special_tokens=False)
 			labels = np.where(batch["target_ids"][i] != -100, batch["target_ids"][i], tokenizer.pad_token_id)
