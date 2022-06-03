@@ -1,0 +1,16 @@
+python main.py --task 15res \
+--train_dataset_path 15res/train \
+--dev_dataset_path 15res/dev \
+--test_dataset_path 15res/test \
+--logger_name 15res_trial.txt \
+--log_message trial \
+--use_tagger True \
+--regressor True \
+--do_train \
+--train_batch_size 2 \
+--eval_batch_size 16 \
+--gradient_accumulation_steps 2 \
+--learning_rate 3e-4 \
+--num_train_epochs 20 \
+--seed 42 \
+--gpu_id 1

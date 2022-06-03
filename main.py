@@ -71,50 +71,41 @@ def initialise_args():
 	parser = argparse.ArgumentParser()
 	
 	# basic settings
-	parser.add_argument("--task", default='15res', type=str, required=True,
-						help="[15res, 14res, 16res, lap14]")
-	parser.add_argument("--train_dataset_path", default='train', type=str, required=True,
-						help="path to train file")
-	parser.add_argument("--dev_dataset_path", default='dev', type=str, required=True,
-						help="path to dev file ")
-	parser.add_argument("--test_dataset_path", default='test', type=str, required=True,
-						help="path to test file ")
-	parser.add_argument("--model_name_or_path", default='t5-base', type=str,
-						help="Path to pre-trained model or shortcut name")
-	parser.add_argument("--model_weights", default='', type=str,
-						help ="In case of external checkpoint weights")                  
+	parser.add_argument("--task", default='15res', type=str, required=True, help="[15res, 14res, 16res, lap14]")
+	parser.add_argument("--train_dataset_path", default='train', type=str, required=True, help="path to train file")
+	parser.add_argument("--dev_dataset_path", default='dev', type=str, required=True, help="path to dev file ")
+	parser.add_argument("--test_dataset_path", default='test', type=str, required=True, help="path to test file ")
+	parser.add_argument("--model_name_or_path", default='t5-base', type=str, help="Path to pre-trained model or shortcut name")
+	parser.add_argument("--model_weights", default='', type=str, help ="In case of external checkpoint weights")
+	parser.add_argument("--logger_name", default = 'logs.txt')
+	parser.add_argument('--log_message', type=str, default='', help="message to be logged at start")
+	parser.add_argument("--use_tagger", default = False, type = bool) 
+	parser.add_argument("--regressor", default = False, type = bool)
 	parser.add_argument("--do_train",action='store_true',  help="Whether to run training.")
 	parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev/test set.")
-	
+
 	# parser.add_argument("--do_direct_eval", action='store_true', 
 	#                     help="Whether to run direct eval on the dev/test set.") ## useful when trying zero shot
-	
-	parser.add_argument("--max_seq_length", default=128, type=int)
+
+	parser.add_argument('--k_shot', type=int, default=-1, help="low-resource k shot")
 	parser.add_argument("--n_gpu", default=1)
 	parser.add_argument('--gpu_id', type=int, default=0)
-	parser.add_argument("--logger_name", default = 'logs.txt')
-	parser.add_argument("--train_batch_size", default=4, type=int,
-						help="Batch size per GPU/CPU for training.")
-	parser.add_argument("--use_tagger", default = False, type = bool) 
-	parser.add_argument("--regressor", default = False, type = bool)               
-	parser.add_argument("--eval_batch_size", default=4, type=int,
-						help="Batch size per GPU/CPU for evaluation.")
-	parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
-						help="Number of updates steps to accumulate before performing a backward/update pass.")
+	
+	# training details
+	parser.add_argument("--max_seq_length", default=128, type=int)	
+	parser.add_argument("--train_batch_size", default=4, type=int, help="Batch size per GPU/CPU for training.")
+	parser.add_argument("--eval_batch_size", default=4, type=int, help="Batch size per GPU/CPU for evaluation.")
+	parser.add_argument('--gradient_accumulation_steps', type=int, default=1, 
+		help="Number of updates steps to accumulate before performing a backward/update pass.")
 	parser.add_argument("--learning_rate", default=3e-4, type=float)
 	parser.add_argument("--alpha", default=1.0, type=float)
 	parser.add_argument("--beta", default=0.2, type=float)
-	parser.add_argument("--num_train_epochs", default=20, type=int, 
-						help="Total number of training epochs to perform.")
+	parser.add_argument("--num_train_epochs", default=20, type=int, help="Total number of training epochs to perform.")
 	parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
-	parser.add_argument('--k_shot', type=int, default=-1, help="low-resource k shot")
-
-	# training details
-	parser.add_argument('--log_message', type=str, default='', help="message to be logged at start")
 	parser.add_argument("--weight_decay", default=0.0, type=float)
 	parser.add_argument("--adam_epsilon", default=1e-8, type=float)
 	parser.add_argument("--warmup_steps", default=0.0, type=float)
-
+	
 	args = parser.parse_args()
 
 	if not os.path.exists('./outputs'):
