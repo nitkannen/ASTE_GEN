@@ -212,10 +212,10 @@ class T5FineTuner(pl.LightningModule):
 		lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
 
 		outputs = self(
-			input_ids=batch["source_ids"],
-			attention_mask=batch["source_mask"],
-			labels=lm_labels,
-			decoder_attention_mask=batch['target_mask']
+			input_ids=batch["source_ids"].to(device),
+			attention_mask=batch["source_mask"].to(device),
+			labels=lm_labels.to(device),
+			decoder_attention_mask=batch['target_mask'].to(device)
 		)
 		loss = outputs[0].to(device)
 		print(loss, "loss before tag")
@@ -477,7 +477,7 @@ class T5FineTuner(pl.LightningModule):
 
 
 def evaluate(data_loader, model, device):
-	
+
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
