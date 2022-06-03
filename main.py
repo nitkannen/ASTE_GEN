@@ -471,9 +471,12 @@ def evaluate(data_loader, model, device):
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
+		batch['source_ids'] = batch['source_ids'].to(device)
+		batch['source_mask'] = batch['source_mask'].to(device)
+		batch['target_ids'] = batch['target_ids'].to(device)
 		outs = model.model.generate(input_ids=batch['source_ids'], 
 									attention_mask=batch['source_mask'], 
-									max_length=128)
+									max_length=128).to(device)
 		for i in range(len(outs)):
 			dec = tokenizer.decode(outs[i], skip_special_tokens=False)
 			labels = np.where(batch["target_ids"][i] != -100, batch["target_ids"][i], tokenizer.pad_token_id)
@@ -481,7 +484,6 @@ def evaluate(data_loader, model, device):
 
 			outputs.append(dec)
 			targets.append(target)
-
 
 	decoded_labels = correct_spaces(targets)
 	decoded_preds = correct_spaces(outputs)
@@ -585,6 +587,9 @@ if __name__ == '__main__':
 		custom_print("Finish training and saving the model!")
 		custom_print("The best Dev epoch is:", model.best_epoch)
 
+		del model
+		torch.cuda.empty_cache()
+
 	
 	if args.do_eval:
 
@@ -605,8 +610,8 @@ if __name__ == '__main__':
 		# print(f"We will perform validation on the following checkpoints: {all_checkpoints}")
 		
 		# load dev and test datasets
-		dev_dataset = ASTE_Dataset(tokenizer, data_path=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
-		dev_loader = DataLoader(dev_dataset, batch_size=32)
+		# dev_dataset = ASTE_Dataset(tokenizer, data_path=args.dev_dataset_path, task=args.task, max_len=args.max_seq_length)
+		# dev_loader = DataLoader(dev_dataset, batch_size=32)
 		
 		test_dataset = ASTE_Dataset(tokenizer, data_path=args.test_dataset_path, task=args.task, max_len=args.max_seq_length)
 		test_loader = DataLoader(test_dataset, batch_size=32)

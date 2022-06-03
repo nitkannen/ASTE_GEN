@@ -13,4 +13,5 @@ python main.py --task 15res \
 --learning_rate 3e-4 \
 --num_train_epochs 20 \
 --seed 42 \
---gpu_id 1
+--gpu_id 1 \
+--do_eval
