@@ -155,7 +155,7 @@ class ASTE_Dataset(Dataset):
                         for k in range(idx + 1, idx + len(sub_tok)):
                             target[k] = 2 ###########  2 == 'I'
 
-        return target
+        return target.to(self.device)
 
     
     def get_all_tags(self, sentences_list, tuples_list):
@@ -171,7 +171,7 @@ class ASTE_Dataset(Dataset):
             t = self.get_tags(sent, tup)
             tags.append(t)
 
-        return tags
+        return tags.to(self.device)
         
     
     def count_triplets(self, tuples_list):
@@ -181,7 +181,7 @@ class ASTE_Dataset(Dataset):
         for i in range(len(tuples_list)):
             trip_count.append( len( tuples_list[i].split('|') ) )
 
-        return trip_count
+        return trip_count.to(self.device)
 
 
     def _build_examples(self):
@@ -217,3 +217,8 @@ class ASTE_Dataset(Dataset):
             self.inputs.append(tokenized_input)
             self.targets.append(tokenized_target)
             self.trip_counts.append(trip_count)
+
+        self.input_tags = self.input_tags.to(self.device)
+        self.inputs = self.inputs.to(self.device)
+        self.targets = self.targets.to(self.device)
+        self.trip_counts = self.trip_counts.to(self.device)

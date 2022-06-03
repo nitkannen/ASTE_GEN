@@ -57,7 +57,6 @@ from utils import correct_spaces, get_f1_for_trainer
 
 
 def custom_print(*msg):
-
 	for i in range(0, len(msg)):
 		if i == len(msg) - 1:
 			print(msg[i])
@@ -132,7 +131,7 @@ def initialise_args():
 
 
 def get_dataset(device, tokenizer, data_path, task, max_seq_length, k_shot=-1):
-	return ASTE_Dataset(device=device, tokenizer=tokenizer, data_path = data_path,
+	return ASTE_Dataset(device=device, tokenizer=tokenizer, data_path=data_path,
 	 task=task, k_shot=k_shot, max_len=max_seq_length)
 
 
@@ -143,7 +142,7 @@ def load_model_weights(model, new_checkpoint, device):
 
 
 class T5FineTuner(pl.LightningModule):
-	def __init__(self, hparams, tokenizer, model, k_shot = -1, use_tagger = False, regressor = False, alpha = 1, beta = 0.4):
+	def __init__(self, hparams, tokenizer, model, k_shot=-1, use_tagger=False, regressor=False, alpha=1, beta=0.4):
 		super(T5FineTuner, self).__init__()
 		#self.log = logger
 		self.model_name_or_path = hparams.model_name_or_path
@@ -478,7 +477,7 @@ class T5FineTuner(pl.LightningModule):
 
 
 def evaluate(data_loader, model, device):
-
+	
 	#model.eval()
 	outputs, targets = [], []
 	for batch in tqdm(data_loader):
@@ -542,14 +541,13 @@ if __name__ == '__main__':
 	tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
 	tuner_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 	tuner_model.resize_token_embeddings(len(tokenizer))
-	# tuner_model.to(device)
-
+	
 	if (args.model_weights != ''):  ## initializing checkpoint weights
 		weights = args.model_weights
 		tuner_model = load_model_weights(tuner_model, weights, device)
 
-	#logger = logging.getLogger(__name__)
-	#Replace with Custom WandB logger
+	# logger = logging.getLogger(__name__)
+	# Replace with Custom WandB logger
 	logger = TensorBoardLogger(args.output_dir, name='ASTE')
 	custom_logger = open(os.path.join(args.output_dir, args.logger_name), 'w')
 	custom_print(args.log_message)
@@ -600,8 +598,9 @@ if __name__ == '__main__':
 	if args.do_eval:
 
 		custom_print("\n****** Conduct Evaluating ******")
-		trainer.test(model)
+		# trainer.test(model)
 		# model = T5FineTuner(args)
+		
 		dev_results, test_results = {}, {}
 		best_f1, best_checkpoint, best_epoch = -999999.0, None, None
 		all_checkpoints, all_epochs = [], []
@@ -625,7 +624,6 @@ if __name__ == '__main__':
 		model_ckpt = torch.load(model.best_checkpoint)
 		eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 		eval_model.resize_token_embeddings(len(tokenizer))
-		# eval_model.to(device)
 		eval_model.load_state_dict(model_ckpt)
 		tuner = T5FineTuner(args, tokenizer, eval_model)
 		tuner.to(device)
