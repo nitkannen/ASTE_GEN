@@ -563,7 +563,7 @@ if __name__ == '__main__':
 		# ))
 
 		train_params = dict(
-			gpus=[{gpu_id}],
+			gpus=[gpu_id],
 			# gpus=args.n_gpu,
 			enable_checkpointing=False,
 			default_root_dir=args.output_dir,
