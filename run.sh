@@ -11,7 +11,7 @@ python main.py --task 15res \
 --eval_batch_size 16 \
 --gradient_accumulation_steps 2 \
 --learning_rate 3e-4 \
---num_train_epochs 20 \
+--num_train_epochs 2 \
 --seed 42 \
 --gpu_id 1 \
 --do_eval
