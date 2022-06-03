@@ -277,7 +277,7 @@ class T5FineTuner(pl.LightningModule):
 
 	
 	def training_epoch_end(self, outputs):
-		print(outputs)
+		# print(outputs)
 		avg_train_loss = torch.stack([x['loss'] for x in outputs]).mean()
 		self.log('avg_train_loss_after_epoch_end', avg_train_loss)
 
@@ -584,9 +584,6 @@ if __name__ == '__main__':
 		custom_print("Finish training and saving the model!")
 		custom_print("The best Dev epoch is:", model.best_epoch)
 
-		del model
-		torch.cuda.empty_cache()
-
 	
 	if args.do_eval:
 
@@ -615,6 +612,8 @@ if __name__ == '__main__':
 
 		custom_print('*************Loading Checkpoint***************: ', model.best_checkpoint)
 		model_ckpt = torch.load(model.best_checkpoint)
+		del model
+		torch.cuda.empty_cache()
 		eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 		eval_model.resize_token_embeddings(len(tokenizer))
 		eval_model.load_state_dict(model_ckpt)
