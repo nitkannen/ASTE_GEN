@@ -110,7 +110,7 @@ def load_tokenizer(tokenizer_checkpoint):
   tokenizer = AutoTokenizer.from_pretrained(tokenizer_checkpoint)
   tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
 
-  return tokenizer.to(device)
+  return tokenizer
 
 
 def load_model(model_checkpoint, tokenizer):
