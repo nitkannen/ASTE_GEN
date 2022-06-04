@@ -110,8 +110,7 @@ def load_tokenizer(tokenizer_checkpoint):
   tokenizer = AutoTokenizer.from_pretrained(tokenizer_checkpoint)
   tokenizer.add_tokens(['<triplet>', '<opinion>', '<sentiment>'], special_tokens = True)
 
-  return tokenizer
-
+  return tokenizer.to(device)
 
 
 def load_model(model_checkpoint, tokenizer):
@@ -119,7 +118,9 @@ def load_model(model_checkpoint, tokenizer):
   
   model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
   model.resize_token_embeddings(len(tokenizer))
+
   model.to(device)
+
 def random_seed(seed_value ):
     
     np.random.seed(seed_value)  
@@ -242,14 +243,7 @@ def has_opposite_labels(labels):
     return not (labels.sum().item() <= 1 or (1 - labels).sum().item() <= 1)
 
 def _shift_right( input_ids):
-    # decoder_start_token_id = self.config.decoder_start_token_id
-    # pad_token_id = self.config.pad_token_id
-
-    # assert (
-    #     decoder_start_token_id is not None
-    # ), "self.model.config.decoder_start_token_id has to be defined. In ProphetNet it is usually set to the pad_token_id. See ProphetNet docs for more information"
-
-    # shift inputs to the right
+    
     shifted_input_ids = input_ids.new_zeros(input_ids.shape)
 
     shifted_input_ids[..., 1:] = input_ids[..., :-1].clone()
