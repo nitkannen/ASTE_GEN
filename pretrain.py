@@ -19,13 +19,10 @@ import datasets
 import random
 from transformers import AutoTokenizer
 
-from IPython.display import display, HTML
-import nltk
-nltk.download('punkt')
+
 
 import numpy as np
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score
+
 import torch
 from torch.nn import CrossEntropyLoss
 from torch.utils.data import DataLoader
