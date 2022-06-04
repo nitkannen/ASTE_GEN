@@ -119,7 +119,7 @@ def load_model(model_checkpoint, tokenizer):
   model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
   model.resize_token_embeddings(len(tokenizer))
 
-  model.to(device)
+  return model.to(device)
 
 def random_seed(seed_value ):
     
