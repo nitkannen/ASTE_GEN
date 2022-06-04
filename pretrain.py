@@ -317,7 +317,7 @@ if __name__ == '__main__':
           
     total_loss = 0
 
-    if(epoch == 10 or epoch == 8 or epoch == 6 or epoch == 12 or epoch == 9): ## needs editing
+    if(epoch == 10 or epoch == 8 or epoch == 6 or epoch == 12 or epoch == 9 or epoch == 14): ## needs editing
          name = 'model_after' + str(epoch) + 'epochs'
          save_path = os.path.join(os.getcwd(), 'models')
          model_path = os.path.join(save_path, name)
