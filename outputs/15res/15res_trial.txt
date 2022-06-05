@@ -1,0 +1,52 @@
+trial
+
+****** Conduct Training ******
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.0
+Dev Aspect F1:0.0
+Dev Sentiment F1:0.0
+Dev P:0.0
+Dev R:0.0
+Dev F1:0.0
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.045
+Dev Aspect F1:0.082
+Dev Sentiment F1:0.112
+Dev P:0.222
+Dev R:0.016
+Dev F1:0.03
+********************************************************************
+Epoch:1
+
+Dev Results
+
+Dev Opinion F1:0.618
+Dev Aspect F1:0.538
+Dev Sentiment F1:0.756
+Dev P:0.413
+Dev R:0.333
+Dev F1:0.369
+Finish training and saving the model!
+The best Dev epoch is:1
+
+****** Conduct Evaluating ******
+*************Loading Checkpoint***************: best_checkpoint_dev
+**************** Printing Model Outputs for Test***************
+
+Test Results
+
+Test Opinion F1:0.585
+Test Aspect F1:0.503
+Test Sentiment F1:0.672
+Test P:0.412
+Test R:0.334
+Test F1:0.369
+All Done :)
