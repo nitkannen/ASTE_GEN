@@ -24,12 +24,12 @@ def correct_spaces(result):
 
 def post_process(text):
 	
-	text = text.strip()
-	if len(text) > 9:
-		if text[:9] != '<triplet>':
-			text = '<triplet> ' + text
-  
-  return text
+    text = text.strip()
+    if len(text) > 9:
+      if text[:9] != '<triplet>':
+        text = '<triplet> ' + text
+    
+    return text
 
 
 
@@ -37,53 +37,53 @@ def post_process(text):
 
 def decode_pred_triplets(text):
   
-	triplets = []
-	text = text.replace("<s>", "").replace("<pad>", "").replace("</s>", "")
-	text = text.replace("<extra_id_-1>", '<triplet>').replace("<extra_id_-2>", '<opinion>' ).replace("<extra_id_-3>", '<sentiment>')
-	text_processed = post_process(text)
-	text_processed = text_processed.replace("<s>", "").replace("<pad>", "").replace("</s>", "")
-	
-	current = None
-	aspect, opinion, sentiment = "", "", ""
-	# print(text_processed)
-	for token in text_processed.split():
-		#print(token)
-		if token == '<triplet>':
-			current = 't'
-			if sentiment != "":
-				entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
-				if entry not in triplets:
-					triplets.append(entry)
-				sentiment = ""
-			aspect = ""
+    triplets = []
+    text = text.replace("<s>", "").replace("<pad>", "").replace("</s>", "")
+    text = text.replace("<extra_id_-1>", '<triplet>').replace("<extra_id_-2>", '<opinion>' ).replace("<extra_id_-3>", '<sentiment>')
+    text_processed = post_process(text)
+    text_processed = text_processed.replace("<s>", "").replace("<pad>", "").replace("</s>", "")
+    
+    current = None
+    aspect, opinion, sentiment = "", "", ""
+    # print(text_processed)
+    for token in text_processed.split():
+      #print(token)
+      if token == '<triplet>':
+        current = 't'
+        if sentiment != "":
+          entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
+          if entry not in triplets:
+            triplets.append(entry)
+          sentiment = ""
+        aspect = ""
 
-		elif token == '<opinion>':
-			current = 'o'
-			if sentiment != "":
-				entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
-				if entry not in triplets:
-					triplets.append(entry)
-				sentiment = ""
-			opinion = ""
+      elif token == '<opinion>':
+        current = 'o'
+        if sentiment != "":
+          entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
+          if entry not in triplets:
+            triplets.append(entry)
+          sentiment = ""
+        opinion = ""
 
-		elif token == '<sentiment>':
-			current = 's'
-			sentiment = ""
+      elif token == '<sentiment>':
+        current = 's'
+        sentiment = ""
 
-		else:
-			if current == 't':
-				aspect += ' ' + token
-			elif current == 'o':
-				opinion += ' ' + token
-			elif current =='s':
-				sentiment += ' ' + token
+      else:
+        if current == 't':
+          aspect += ' ' + token
+        elif current == 'o':
+          opinion += ' ' + token
+        elif current =='s':
+          sentiment += ' ' + token
 
-	if aspect != '' and opinion != '' and sentiment != '':
-		entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
-		if entry not in triplets:
-			triplets.append(entry)
+    if aspect != '' and opinion != '' and sentiment != '':
+      entry = {"aspect": aspect.strip(), "opinion": opinion.strip(), "sentiment": sentiment.strip()}
+      if entry not in triplets:
+        triplets.append(entry)
 
-  return triplets
+    return triplets
 
 
 
