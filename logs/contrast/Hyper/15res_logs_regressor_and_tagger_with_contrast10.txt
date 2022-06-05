@@ -1,0 +1,250 @@
+epoch10_default
+
+****** Conduct Training ******
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.0
+Dev Aspect F1:0.0
+Dev Sentiment F1:0.0
+Dev P:0.0
+Dev R:0.0
+Dev F1:0.0
+********************************************************************
+Epoch:0
+
+Dev Results
+
+Dev Opinion F1:0.167
+Dev Aspect F1:0.182
+Dev Sentiment F1:0.276
+Dev P:0.654
+Dev R:0.068
+Dev F1:0.124
+********************************************************************
+Epoch:1
+
+Dev Results
+
+Dev Opinion F1:0.771
+Dev Aspect F1:0.804
+Dev Sentiment F1:0.918
+Dev P:0.618
+Dev R:0.598
+Dev F1:0.608
+********************************************************************
+Epoch:2
+
+Dev Results
+
+Dev Opinion F1:0.794
+Dev Aspect F1:0.853
+Dev Sentiment F1:0.88
+Dev P:0.638
+Dev R:0.667
+Dev F1:0.652
+********************************************************************
+Epoch:3
+
+Dev Results
+
+Dev Opinion F1:0.832
+Dev Aspect F1:0.859
+Dev Sentiment F1:0.903
+Dev P:0.68
+Dev R:0.699
+Dev F1:0.689
+********************************************************************
+Epoch:4
+
+Dev Results
+
+Dev Opinion F1:0.792
+Dev Aspect F1:0.815
+Dev Sentiment F1:0.872
+Dev P:0.62
+Dev R:0.687
+Dev F1:0.651
+********************************************************************
+Epoch:5
+
+Dev Results
+
+Dev Opinion F1:0.822
+Dev Aspect F1:0.838
+Dev Sentiment F1:0.881
+Dev P:0.661
+Dev R:0.683
+Dev F1:0.672
+********************************************************************
+Epoch:6
+
+Dev Results
+
+Dev Opinion F1:0.851
+Dev Aspect F1:0.835
+Dev Sentiment F1:0.938
+Dev P:0.685
+Dev R:0.647
+Dev F1:0.665
+********************************************************************
+Epoch:7
+
+Dev Results
+
+Dev Opinion F1:0.824
+Dev Aspect F1:0.848
+Dev Sentiment F1:0.848
+Dev P:0.602
+Dev R:0.618
+Dev F1:0.61
+********************************************************************
+Epoch:8
+
+Dev Results
+
+Dev Opinion F1:0.838
+Dev Aspect F1:0.81
+Dev Sentiment F1:0.93
+Dev P:0.672
+Dev R:0.675
+Dev F1:0.673
+********************************************************************
+Epoch:9
+
+Dev Results
+
+Dev Opinion F1:0.774
+Dev Aspect F1:0.839
+Dev Sentiment F1:0.897
+Dev P:0.626
+Dev R:0.687
+Dev F1:0.655
+********************************************************************
+Epoch:10
+
+Dev Results
+
+Dev Opinion F1:0.836
+Dev Aspect F1:0.857
+Dev Sentiment F1:0.929
+Dev P:0.691
+Dev R:0.683
+Dev F1:0.687
+********************************************************************
+Epoch:11
+
+Dev Results
+
+Dev Opinion F1:0.827
+Dev Aspect F1:0.858
+Dev Sentiment F1:0.904
+Dev P:0.664
+Dev R:0.723
+Dev F1:0.692
+********************************************************************
+Epoch:12
+
+Dev Results
+
+Dev Opinion F1:0.839
+Dev Aspect F1:0.816
+Dev Sentiment F1:0.905
+Dev P:0.654
+Dev R:0.699
+Dev F1:0.676
+********************************************************************
+Epoch:13
+
+Dev Results
+
+Dev Opinion F1:0.849
+Dev Aspect F1:0.853
+Dev Sentiment F1:0.923
+Dev P:0.715
+Dev R:0.747
+Dev F1:0.731
+********************************************************************
+Epoch:14
+
+Dev Results
+
+Dev Opinion F1:0.844
+Dev Aspect F1:0.825
+Dev Sentiment F1:0.89
+Dev P:0.682
+Dev R:0.759
+Dev F1:0.719
+********************************************************************
+Epoch:15
+
+Dev Results
+
+Dev Opinion F1:0.843
+Dev Aspect F1:0.851
+Dev Sentiment F1:0.901
+Dev P:0.698
+Dev R:0.751
+Dev F1:0.723
+********************************************************************
+Epoch:16
+
+Dev Results
+
+Dev Opinion F1:0.84
+Dev Aspect F1:0.844
+Dev Sentiment F1:0.934
+Dev P:0.696
+Dev R:0.735
+Dev F1:0.715
+********************************************************************
+Epoch:17
+
+Dev Results
+
+Dev Opinion F1:0.849
+Dev Aspect F1:0.849
+Dev Sentiment F1:0.904
+Dev P:0.692
+Dev R:0.723
+Dev F1:0.707
+********************************************************************
+Epoch:18
+
+Dev Results
+
+Dev Opinion F1:0.844
+Dev Aspect F1:0.848
+Dev Sentiment F1:0.914
+Dev P:0.687
+Dev R:0.731
+Dev F1:0.708
+********************************************************************
+Epoch:19
+
+Dev Results
+
+Dev Opinion F1:0.847
+Dev Aspect F1:0.847
+Dev Sentiment F1:0.913
+Dev P:0.688
+Dev R:0.735
+Dev F1:0.711
+Finish training and saving the model!
+The best Dev epoch is:13
+
+****** Conduct Evaluating ******
+*************Loading Checkpoint***************: best_checkpoint_dev
+**************** Printing Model Outputs for Test***************
+
+Test Results
+
+Test Opinion F1:0.804
+Test Aspect F1:0.812
+Test Sentiment F1:0.866
+Test P:0.612
+Test R:0.641
+Test F1:0.626
+All Done :)
