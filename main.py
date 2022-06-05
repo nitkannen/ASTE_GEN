@@ -1,56 +1,34 @@
-import datetime
+import os
 import json
 import math
-import os
 import random
-import time
 import pprint
 import string
-
-import pandas as pd
-import matplotlib.pyplot as plt
-
+import time
+import datetime
+import pickle
+import argparse
+import logging
 import numpy as np
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score
+import pandas as pd
+from tqdm import tqdm
+from sklearn.metrics import accuracy_score, f1_score
+
 import torch
-from torch.nn import CrossEntropyLoss
-from torch.utils.data import DataLoader
-from torch.utils.data import RandomSampler
-from torch.utils.data import random_split
-from torch.utils.data import SequentialSampler
-from torch.utils.data import TensorDataset
-from transformers.optimization import Adafactor, AdamW
-from transformers import AutoTokenizer
-from transformers import BertConfig
-from transformers import BertForTokenClassification
-from transformers import BertTokenizer
-from transformers import get_linear_schedule_with_warmup
 import torch.nn as nn
-import json
-import numpy as np
-import pandas as pd
+from torch.optim import AdamW
+from torch.nn import CrossEntropyLoss
+from torch.utils.data import DataLoader, RandomSampler, random_split, SequentialSampler, TensorDataset
+
+from transformers import T5ForConditionalGeneration, T5Tokenizer
+from transformers import get_linear_schedule_with_warmup
+
 from datasets import load_dataset, load_metric
 
-from pytorch_lightning.loggers.neptune import NeptuneLogger
-from pytorch_lightning.loggers.wandb import WandbLogger
-from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
-
-import argparse
-import os
-import logging
-import time
-import pickle
-from tqdm import tqdm
-
-import torch
-from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 from pytorch_lightning import seed_everything
-
-from transformers import AdamW, T5ForConditionalGeneration, T5Tokenizer
-from transformers import get_linear_schedule_with_warmup
+from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 from preprocessor import ASTE_Dataset
 from utils import correct_spaces, get_f1_for_trainer
@@ -126,8 +104,7 @@ def get_dataset(tokenizer, data_path, task, max_seq_length, k_shot=-1):
 	 task=task, k_shot=k_shot, max_len=max_seq_length)
 
 
-def load_model_weights(model, new_checkpoint, device):
-	# model.load_state_dict(torch.load(new_checkpoint)).to(device)
+def load_model_weights(model, new_checkpoint):
 	model.load_state_dict(torch.load(new_checkpoint))
 	model.train() 
 	return model
@@ -136,8 +113,13 @@ def load_model_weights(model, new_checkpoint, device):
 class T5FineTuner(pl.LightningModule):
 	def __init__(self, hparams, tokenizer, model, k_shot=-1, use_tagger=False, regressor=False, alpha=1, beta=0.4):
 		super(T5FineTuner, self).__init__()
-		#self.log = logger
+		
+		self.task = hparams.task
+		self.train_path = hparams.train_dataset_path
+		self.dev_path = hparams.dev_dataset_path
+		self.test_path = hparams.test_dataset_path
 		self.model_name_or_path = hparams.model_name_or_path
+		
 		self.train_batch_size = hparams.train_batch_size
 		self.eval_batch_size = hparams.eval_batch_size
 		self.num_train_epochs = hparams.num_train_epochs
@@ -145,30 +127,27 @@ class T5FineTuner(pl.LightningModule):
 		self.gradient_accumulation_steps = hparams.gradient_accumulation_steps
 		self.weight_decay = hparams.weight_decay
 		self.adam_epsilon = hparams.adam_epsilon
-		self.warmup_steps = hparams.warmup_steps
-		self.train_path = hparams.train_dataset_path
-		self.dev_path = hparams.dev_dataset_path
-		self.test_path = hparams.test_dataset_path
-		self.task = hparams.task
+		self.warmup_steps = hparams.warmup_steps		
+		
 		self.max_seq_length = hparams.max_seq_length
 		self.n_gpu = hparams.n_gpu
-		self.k_shot = k_shot
+		
+		self.k_shot = k_shot		
 		self.use_tagger = use_tagger
 		self.regressor = regressor
 		self.alpha = alpha
 		self.beta = beta
 
-		### model init
+		### Model init
 		self.tokenizer = tokenizer
 		self.model = model
 
-		### result cache
-
+		### Model Saving Criteria
 		self.best_f1 = -999999.0
 		self.best_checkpoint = "best_checkpoint_dev"
 		self.best_epoch = None
 
-		#### Tagger
+		### Tagger
 		self.classifier = nn.Linear(768, 3)  ## 3 to 5 maybe 
 		self.softmax = nn.Softmax(dim=2)
 		self.tag_criterion = nn.CrossEntropyLoss(ignore_index=-100)
@@ -210,15 +189,15 @@ class T5FineTuner(pl.LightningModule):
 			decoder_attention_mask=batch['target_mask']
 		)
 		loss = outputs[0]
-		# print(loss, "loss before tag")
+		# print(loss, "loss before tagger")
 
 		if self.use_tagger:
 			encoder_states = outputs.encoder_last_hidden_state
 			logits = self.classifier(self.token_dropout(encoder_states))
-			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe
 			
+			tag_loss = self.tag_criterion(logits.view(-1, 3), batch['op_tags'].view(-1))  ## 3 to 5 maybe			
 			loss += self.alpha * tag_loss
-			# print(loss, "loss after tag")
+			# print(loss, "loss after tagger")
 
 		if self.regressor:
 			encoder_states = outputs.encoder_last_hidden_state
@@ -236,8 +215,8 @@ class T5FineTuner(pl.LightningModule):
 
 			regressor_loss = self.regressor_criterion(outs, batch['triplet_count'].view(-1).type_as(outs))
 			loss += self.beta * regressor_loss  #### Hyperparameter 0.4
-			# print(loss, "loss after regression")			
-		
+			# print(loss, "loss after regression")
+
 		return loss
 
 	
@@ -300,6 +279,7 @@ class T5FineTuner(pl.LightningModule):
 		
 		avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
 		self.log("avg_val_loss_after_epoch_end", avg_loss)
+		
 		all_preds = []
 		all_labels = []
 		#print(outputs)
@@ -307,35 +287,33 @@ class T5FineTuner(pl.LightningModule):
 			all_preds.extend(outputs[i]['predictions'])
 			all_labels.extend(outputs[i]['labels'])
 
-		p, r, f = get_f1_for_trainer(all_preds, all_labels )
-		_, _, opinion_f = get_f1_for_trainer(all_preds, all_labels , 'opinion')
-		_, _, aspect_f = get_f1_for_trainer(all_preds, all_labels , 'aspect')
-		_, _, sentiment_f = get_f1_for_trainer(all_preds, all_labels , 'sentiment')
+		p, r, f = get_f1_for_trainer(all_preds, all_labels)
+		_, _, aspect_f = get_f1_for_trainer(all_preds, all_labels, 'aspect')
+		_, _, opinion_f = get_f1_for_trainer(all_preds, all_labels, 'opinion')
+		sentiment_acc = get_f1_for_trainer(all_preds, all_labels, 'sentiment')
 
 		if f > self.best_f1:
 			self.best_f1 = f
 			self.best_epoch = self.current_epoch
 			torch.save(self.model.state_dict(), self.best_checkpoint)
 
-
 		self.log('step', self.current_epoch)
-
-		self.log('val f1', f, on_step=False, on_epoch=True)
 		self.log('val prec', p, on_step=False, on_epoch=True)
 		self.log('val rec', r, on_step=False, on_epoch=True)
-		self.log('val opinion', opinion_f, on_step=False, on_epoch=True)
+		self.log('val f1', f, on_step=False, on_epoch=True)				
 		self.log('val aspect', aspect_f, on_step=False, on_epoch=True)
-		self.log('val sentiment', sentiment_f, on_step=False, on_epoch=True)
+		self.log('val opinion', opinion_f, on_step=False, on_epoch=True)
+		self.log('val sentiment', sentiment_acc, on_step=False, on_epoch=True)
 
 		custom_print('\nDev Results\n')
-		custom_print('Dev Opinion F1:', round(opinion_f, 3))
 		custom_print('Dev Aspect F1:', round(aspect_f, 3))
-		custom_print('Dev Sentiment F1:', round(sentiment_f, 3))
+		custom_print('Dev Opinion F1:', round(opinion_f, 3))
+		custom_print('Dev Sentiment Acc:', round(sentiment_acc, 3))
 		custom_print('Dev P:', round(p, 3))
 		custom_print('Dev R:', round(r, 3))
 		custom_print('Dev F1:', round(f, 3))
 		
-		return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
+		return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_acc}
 
 	
 	def test_step(self, batch, batch_idx):
@@ -356,32 +334,33 @@ class T5FineTuner(pl.LightningModule):
 			all_preds.extend(outputs[i]['predictions'])
 			all_labels.extend(outputs[i]['labels'])
 
-		p, r, f = get_f1_for_trainer(all_preds, all_labels )
-		_, _, opinion_f = get_f1_for_trainer(all_preds, all_labels , 'opinion')
-		_, _, aspect_f = get_f1_for_trainer(all_preds, all_labels , 'aspect')
-		_, _, sentiment_f = get_f1_for_trainer(all_preds, all_labels , 'sentiment')
+		p, r, f = get_f1_for_trainer(all_preds, all_labels)
+		_, _, aspect_f = get_f1_for_trainer(all_preds, all_labels, 'aspect')
+		_, _, opinion_f = get_f1_for_trainer(all_preds, all_labels, 'opinion')
+		sentiment_acc = get_f1_for_trainer(all_preds, all_labels, 'sentiment')
 
 		self.log('step', self.current_epoch)
-		self.log('test f1', f, on_step=False, on_epoch=True)
 		self.log('test prec', p, on_step=False, on_epoch=True)
 		self.log('test rec', r, on_step=False, on_epoch=True)
-		self.log('test opinion', opinion_f, on_step=False, on_epoch=True)
+		self.log('test f1', f, on_step=False, on_epoch=True)
 		self.log('test aspect', aspect_f, on_step=False, on_epoch=True)
+		self.log('test opinion', opinion_f, on_step=False, on_epoch=True)		
 		self.log('test sentiment', sentiment_f, on_step=False, on_epoch=True)
 
 		custom_print('\nTest Results\n')
-		custom_print('Test Opinion F1:', round(opinion_f, 3))
 		custom_print('Test Aspect F1:', round(aspect_f, 3))
-		custom_print('Test Sentiment F1:', round(sentiment_f, 3))
+		custom_print('Test Opinion F1:', round(opinion_f, 3))
+		custom_print('Test Sentiment Acc:', round(sentiment_acc, 3))
 		custom_print('Test P:', round(p, 3))
 		custom_print('Test R:', round(r, 3))
 		custom_print('Test F1:', round(f, 3))
 
-		return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
+		return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_acc}
 
 
 	def configure_optimizers(self):
 		'''Prepare optimizer and schedule (linear warmup and decay)'''
+		
 		model = self.model
 		no_decay = ["bias", "LayerNorm.weight"]
 		optimizer_grouped_parameters = [
@@ -396,6 +375,7 @@ class T5FineTuner(pl.LightningModule):
 		]
 		optimizer = AdamW(optimizer_grouped_parameters, lr=self.learning_rate, eps=self.adam_epsilon)
 		self.opt = optimizer
+		
 		return [optimizer]
 
 	
@@ -410,9 +390,9 @@ class T5FineTuner(pl.LightningModule):
 					using_native_amp=None,
 					using_lbfgs=None):
 
-				optimizer.step(closure=optimizer_closure)
-				optimizer.zero_grad()
-				self.lr_scheduler.step()
+		optimizer.step(closure=optimizer_closure)
+		optimizer.zero_grad()
+		self.lr_scheduler.step()
 		
 		
 	def get_tqdm_dict(self):
@@ -484,23 +464,28 @@ def evaluate(data_loader, model, device):
 
 	for l in decoded_preds:
 		custom_print(l)
-	#print(decoded_labels)
+	# print(decoded_labels)
 
-	p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels )
-	_, _, opinion_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'opinion')
-	_, _, aspect_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'aspect')
-	_, _, sentiment_f = get_f1_for_trainer(decoded_preds, decoded_labels , 'sentiment')
+	p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels)
+	a_p, a_r, a_f = get_f1_for_trainer(decoded_preds, decoded_labels, 'aspect')
+	o_p, o_r, o_f = get_f1_for_trainer(decoded_preds, decoded_labels, 'opinion')	
+	sentiment_acc = get_f1_for_trainer(decoded_preds, decoded_labels, 'sentiment')
 
-	custom_print('\nTest Results\n')
-	custom_print('Test Opinion F1:', round(opinion_f, 3))
-	custom_print('Test Aspect F1:', round(aspect_f, 3))
-	custom_print('Test Sentiment F1:', round(sentiment_f, 3))
+	custom_print('\n\nTest Results\n')
+	custom_print('*************************** Aspect *******************************')
+	custom_print('P:', round(a_p, 3))
+	custom_print('R:', round(a_r, 3))
+	custom_print('F1:', round(a_f, 3))
+	custom_print('\n************************* Opinion ******************************')
+	custom_print('P:', round(o_p, 3))
+	custom_print('R:', round(o_r, 3))
+	custom_print('F1:', round(o_f, 3))
+	custom_print('\n************************* Sentiment ****************************')
+	custom_print('Accuracy:', round(sentiment_acc, 3))
+	custom_print('\n************************* Overall ******************************')
 	custom_print('Test P:', round(p, 3))
 	custom_print('Test R:', round(r, 3))
 	custom_print('Test F1:', round(f, 3))
-
-	return {'f1':f, 'prec': p, 'rec': r , 'opinion': opinion_f, 'aspect': aspect_f, 'sentiment': sentiment_f }
-
 
 
 if __name__ == '__main__':
@@ -530,7 +515,7 @@ if __name__ == '__main__':
 	
 	if (args.model_weights != ''):  ## initializing checkpoint weights
 		weights = args.model_weights
-		tuner_model = load_model_weights(tuner_model, weights, device)
+		tuner_model = load_model_weights(tuner_model, weights)
 
 	# logger = logging.getLogger(__name__)
 	# Replace with Custom WandB logger
@@ -615,11 +600,12 @@ if __name__ == '__main__':
 		eval_model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
 		eval_model.resize_token_embeddings(len(tokenizer))
 		eval_model.load_state_dict(model_ckpt)
+		eval_model.eval()
 		tuner = T5FineTuner(args, tokenizer, eval_model)
 		tuner.to(device)
 
 		custom_print('**************** Printing Model Outputs for Test***************')
-		_ = evaluate(test_loader, tuner, device)
+		evaluate(test_loader, tuner, device)
 
 		## To DO:
 
@@ -631,7 +617,7 @@ if __name__ == '__main__':
 		#     model_ckpt = torch.load(checkpoint)
 		#     eval_model.load_state_dict(model_ckpt)
 		#     tuner = T5FineTuner(args, tokenizer, eval_model)
-		#     _ = evaluate(test_loader, tuner)
+		#     evaluate(test_loader, tuner)
 
 	custom_print("All Done :)")
 	custom_logger.close()
