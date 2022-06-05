@@ -156,7 +156,7 @@ def get_f1_for_trainer(predictions, target, component=None):
 			triplet_count = 0
 			for g in gold[i]:
 				for p in preds[i]:
-					if g['aspect'] == p['aspect'] and if g['opinion'] == p['opinion']:
+					if g['aspect'] == p['aspect'] and g['opinion'] == p['opinion']:
 						pair_count += 1
 						if g['sentiment'] == p['sentiment']:
 							triplet_count += 1
