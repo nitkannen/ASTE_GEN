@@ -482,8 +482,8 @@ def evaluate(data_loader, model, device):
 	decoded_labels = correct_spaces(targets)
 	decoded_preds = correct_spaces(outputs)
 
-	# for l in decoded_preds:
-	# 	custom_print(l)
+	for l in decoded_preds:
+		custom_print(l)
 	#print(decoded_labels)
 
 	p, r, f = get_f1_for_trainer(decoded_preds, decoded_labels )

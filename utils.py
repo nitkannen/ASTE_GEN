@@ -2,21 +2,36 @@ def correct_spaces(result):
     
     for i in range(len(result)):
         s = ''
+        prev = '0'
         for char in result[i]:
             if char == '<':
                 s += ' ' + char
+
+            elif char == "'":
+                  if prev == 'n':
+                        s = s[:-1] + ' ' + prev + char
+                  else:
+                        s += ' ' + char
+                        
             else:
                 s += char
+
+            prev = char
 
         result[i] = s
 
     return result
 
 def post_process(text):
+      
   if len(text) > 9:
     if text[:9] != '<triplet>':
       text = '<triplet>' + text
   return text
+
+
+
+  
 
 
 """ adapted from https://github.com/Babelscape/rebel/blob/main/src/utils.py"""
