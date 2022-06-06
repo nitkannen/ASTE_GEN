@@ -528,6 +528,15 @@ if __name__ == '__main__':
 	regressor = args.regressor
 	alpha = args.alpha
 	beta = args.beta
+
+	custom_print("\n****** Hyperparameters******\n")
+	
+	custom_print('Learning Rate :', args.learning_rate)
+	custom_print('Train Batch Size :', args.train_batch_size)
+	custom_print('Grad Accumulate Steps :', args.gradient_accumulation_steps )
+	custom_print('Beta :', beta )
+	custom_print('checkpoint :', args.model_weights )
+
 	
 	if args.do_train:
 

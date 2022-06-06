@@ -1,4 +1,3 @@
-
 python main.py --task lap14 \
                 --train_dataset_path lap14/train \
                 --dev_dataset_path lap14/dev \
