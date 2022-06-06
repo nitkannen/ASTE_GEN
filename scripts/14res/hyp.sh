@@ -50,3 +50,7 @@ python main.py --task 14res \
                 --logger_name 14res_hypsearch_4_4_1e_notagger.txt \
                 --log_message hyp_4_4_notagger \
                 --gpu_id 1
+
+
+
+
