@@ -1,94 +1,9 @@
-python main.py --task 16res \
-                --train_dataset_path 16res/train \
-                --dev_dataset_path 16res/dev \
-                --test_dataset_path 16res/test \
-                --model_name_or_path t5-base \
-                --do_train \
-                --do_eval \
-                --train_batch_size 2 \
-                --gradient_accumulation_steps 2 \
-                --eval_batch_size 16 \
-                --learning_rate 3e-4 \
-                --max_seq_length 256 \
-                --num_train_epochs 20 \
-                --regressor True \
-                --use_tagger True \
-                --logger_name 16res_hyp_search_2_2.txt \
-                --log_message hyper_search \
-                --gpu_id 1
+python main.py --task 16res --train_dataset_path 16res/train --dev_dataset_path 16res/dev --test_dataset_path 16res/test --model_name_or_path t5-base --do_train --do_eval --train_batch_size 4 --gradient_accumulation_steps 4 --eval_batch_size 16 --learning_rate 3e-4 --max_seq_length 256 --num_train_epochs 20 --regressor True --use_tagger True --beta 0.1  --model_weights models/model_after12epochs  --logger_name 16res_logs_regressor0.1_and_tagger_with_contrast12.txt  --log_message epoch12_4_4_3e4_0.1default --gpu_id 1
 
-python main.py --task 16res \
-                --train_dataset_path 16res/train \
-                --dev_dataset_path 16res/dev \
-                --test_dataset_path 16res/test \
-                --model_name_or_path t5-base \
-                --do_train \
-                --do_eval \
-                --train_batch_size 4 \
-                --gradient_accumulation_steps 2 \
-                --eval_batch_size 16 \
-                --learning_rate 3e-4 \
-                --max_seq_length 256 \
-                --num_train_epochs 20 \
-                --regressor True \
-                --use_tagger True \
-                --logger_name 16res_hyp_search_4_2.txt \
-                --log_message hyper_search \
-                --gpu_id 1
+python main.py --task 16res --train_dataset_path 16res/train --dev_dataset_path 16res/dev --test_dataset_path 16res/test --model_name_or_path t5-base --do_train --do_eval --train_batch_size 4 --gradient_accumulation_steps 4 --eval_batch_size 16 --learning_rate 3e-4 --max_seq_length 256 --num_train_epochs 20 --regressor True --use_tagger True  --beta 0.4 --model_weights models/model_after12epochs  --logger_name 16res_logs_regressor0.4_and_tagger_with_contrast12.txt  --log_message epoch12_4_4_3e4_0.4default --gpu_id 1
 
-python main.py --task 16res \
-                --train_dataset_path 16res/train \
-                --dev_dataset_path 16res/dev \
-                --test_dataset_path 16res/test \
-                --model_name_or_path t5-base \
-                --do_train \
-                --do_eval \
-                --train_batch_size 4 \
-                --gradient_accumulation_steps 4 \
-                --eval_batch_size 16 \
-                --learning_rate 3e-4 \
-                --max_seq_length 256 \
-                --num_train_epochs 20 \
-                --regressor True \
-                --use_tagger True \
-                --logger_name 16res_hyp_search_4_4.txt \
-                --log_message hyper_search \
-                --gpu_id 1
+python main.py --task 16res --train_dataset_path 16res/train --dev_dataset_path 16res/dev --test_dataset_path 16res/test --model_name_or_path t5-base --do_train --do_eval --train_batch_size 4 --gradient_accumulation_steps 4 --eval_batch_size 16 --learning_rate 3e-4 --max_seq_length 256 --num_train_epochs 20 --regressor True --use_tagger True  --beta 0.1 --model_weights models/model_after10epochs  --logger_name 16res_logs_regressor0.1_and_tagger_with_contrast10.txt  --log_message epoch10_4_4_3e4_0.1default --gpu_id 1
 
-python main.py --task 16res \
-                --train_dataset_path 16res/train \
-                --dev_dataset_path 16res/dev \
-                --test_dataset_path 16res/test \
-                --model_name_or_path t5-base \
-                --do_train \
-                --do_eval \
-                --train_batch_size 4 \
-                --gradient_accumulation_steps 4 \
-                --eval_batch_size 16 \
-                --learning_rate 1e-4 \
-                --max_seq_length 256 \
-                --num_train_epochs 20 \
-                --regressor True \
-                --use_tagger True \
-                --logger_name 16res_hyp_search_4_4_1e.txt \
-                --log_message hyper_search \
-                --gpu_id 1
+python main.py --task 16res --train_dataset_path 16res/train --dev_dataset_path 16res/dev --test_dataset_path 16res/test --model_name_or_path t5-base --do_train --do_eval --train_batch_size 4 --gradient_accumulation_steps 4 --eval_batch_size 16 --learning_rate 3e-4 --max_seq_length 256 --num_train_epochs 20 --regressor True --use_tagger True  --beta 0.4 --model_weights models/model_after10epochs  --logger_name 16res_logs_regressor0.4_and_tagger_with_contrast10.txt  --log_message epoch10_4_4_3e4_0.4default --gpu_id 1
 
-python main.py --task 16res \
-                --train_dataset_path 16res/train \
-                --dev_dataset_path 16res/dev \
-                --test_dataset_path 16res/test \
-                --model_name_or_path t5-base \
-                --do_train \
-                --do_eval \
-                --train_batch_size 4 \
-                --gradient_accumulation_steps 4 \
-                --eval_batch_size 16 \
-                --learning_rate 5e-4 \
-                --max_seq_length 256 \
-                --num_train_epochs 20 \
-                --regressor True \
-                --use_tagger True \
-                --logger_name 16res_hyp_search_4_4_5e.txt \
-                --log_message hyper_search \
-                --gpu_id 1
+python main.py --task 16res --train_dataset_path 16res/train --dev_dataset_path 16res/dev --test_dataset_path 16res/test --model_name_or_path t5-base --do_train --do_eval --train_batch_size 4 --gradient_accumulation_steps 4 --eval_batch_size 16 --learning_rate 3e-4 --max_seq_length 256 --num_train_epochs 20 --use_tagger True  --model_weights models/model_after10epochs  --logger_name 16res_logs_noregressor_and_tagger_with_contrast10.txt  --log_message epoch10_4_4_3e4_0.2default --gpu_id 1
