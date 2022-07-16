@@ -543,6 +543,7 @@ if __name__ == '__main__':
 		custom_print("\n****** Conduct Training ******")
 
 		model = T5FineTuner(args, tokenizer, tuner_model, k_shot, use_tagger, regressor, alpha, beta)
+		print(sum(p.numel() for p in model.parameters()))
 		# model.to(device)
 
 		# checkpoint_callback = []
